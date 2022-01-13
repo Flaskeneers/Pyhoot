@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>{% block title %}{% endblock %} - Pyhoot</title>
+    <link rel="stylesheet" href="bootstrap">
+    {% block meta %}{% endblock %}
+    {% block additional_css %}{% endblock %}
+</head>
+<body>
+
+{% include "layout/header.html" %}
+
+{% include "layout/messages.html" %}
+
+{% block page_content %}{% endblock %}
+
+{% include "layout/footer.html" %}
+
+{% block scripts %}
+    <script src="bootstrap"></script>
+{% endblock %}
+
+</body>
+</html>
