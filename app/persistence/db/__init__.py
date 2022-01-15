@@ -1,3 +1,11 @@
-from flask_sqlalchemy import SQLAlchemy
+from pymongo import MongoClient
 
-db = SQLAlchemy()
+client = None
+db = None
+
+
+def init_mongodb(uri: str, name: str) -> None:
+    global client, db
+
+    client = MongoClient(uri)
+    db = client[name]

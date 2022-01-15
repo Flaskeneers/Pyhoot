@@ -1,7 +1,7 @@
 from flask import Flask
 # from flask_login import LoginManager
 
-from .config import ConfigType, load_config
+from app.config import ConfigType, configure
 
 
 # TODO: non-initialized extensions
@@ -9,25 +9,23 @@ from .config import ConfigType, load_config
 
 
 def create_app(config_type: ConfigType = ConfigType.DEVELOPMENT) -> Flask:
-    app = Flask(__name__)
+    _app = Flask(__name__)
 
-    load_config(app, config_type)
-    initialize_extensions(app)
-    register_blueprints(app)
+    configure(_app, config_type)
+    initialize_extensions(_app)
+    register_blueprints(_app)
 
-    return app
+    return _app
 
 
-def initialize_extensions(app: Flask) -> None:
-    from app.persistence.db import db
-    db.init_app(app)
-
+def initialize_extensions(_app: Flask) -> None:
     # login_manager.init_app(app)
+    pass
 
 
-def register_blueprints(app: Flask) -> None:
+def register_blueprints(_app: Flask) -> None:
     from app.blueprints.auth import bp_auth
-    app.register_blueprint(bp_auth)
+    _app.register_blueprint(bp_auth)
 
     from app.blueprints.guest import bp_guest
-    app.register_blueprint(bp_guest)
+    _app.register_blueprint(bp_guest)
