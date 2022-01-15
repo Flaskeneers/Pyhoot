@@ -1,16 +1,17 @@
 from flask import Flask
 # from flask_login import LoginManager
 
+from .config import ConfigType, load_config
+
+
+# TODO: non-initialized extensions
 # login_manager = LoginManager()
 
 
-# non-initialized extensions
-
-
-def create_app() -> Flask:
+def create_app(config_type: ConfigType = ConfigType.DEVELOPMENT) -> Flask:
     app = Flask(__name__)
 
-    # initialize from config file
+    load_config(app, config_type)
     initialize_extensions(app)
     register_blueprints(app)
 
