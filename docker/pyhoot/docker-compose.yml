@@ -1,13 +1,15 @@
 version: "3"
 
+
 services:
-  mysql:
-    image: "mysql:latest"
-    container_name: "pyhoot-mysql"
-    platform: "linux/amd64"
+  mongo:
+    image: "mongo:latest"
+    container_name: "pyhoot-mongo-db"
+    restart: "always"
     ports:
-      - "3306:3306"
-    cap_add:
-      - "SYS_NICE"
+      - "27017:27017"
     environment:
-      MYSQL_ROOT_PASSWORD: "secret"
+      MONGO_INITDB_ROOT_USERNAME: "root"
+      MONGO_INITDB_ROOT_PASSWORD: "secret"
+    volumes:
+      - "./db-dump:/db-dump"
