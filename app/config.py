@@ -2,8 +2,10 @@ from enum import Enum
 from os import environ, urandom
 from pathlib import Path
 
+from dotenv import load_dotenv
 from flask import Flask
 
+load_dotenv()
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
@@ -56,5 +58,11 @@ __configs = {
 }
 
 
-def load_config(app: Flask, config_type: ConfigType) -> None:
-    app.config.from_object(__configs[config_type])
+def configure(_app: Flask, config_type: ConfigType) -> None:
+    _app.config.from_object(__configs[config_type])
+    _app.config["MONGO_DB_URI"] = (f"{_app.config['MONGO_DB_PROTOCOL']}://{_app.config['MONGO_DB_USER']}:"
+                                   f"{_app.config['MONGO_DB_PASS']}@{_app.config['MONGO_DB_HOST']}:"
+                                   f"{_app.config['MONGO_DB_PORT']}")
+
+    from .persistence.db import init_mongodb
+    init_mongodb(_app.config["MONGO_DB_URI"], _app.config["MONGO_DB_NAME"])
