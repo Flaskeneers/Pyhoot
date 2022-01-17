@@ -1,5 +1,5 @@
 from flask import render_template
-from .forms import SignupForm
+from .forms import SignupForm, LoginForm
 
 from . import bp_auth
 
@@ -21,4 +21,11 @@ def signup():
     return render_template("auth/signup.html",
                            username=username,
                            password=password,
+                           form=form)
+
+
+@bp_auth.route("/login", methods=['GET','POST'])
+def login():
+    form = LoginForm()
+    return render_template("auth/login.html",
                            form=form)
