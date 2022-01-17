@@ -2,25 +2,31 @@
 {% block title %}Sign up{% endblock %}
 
 {% block page_content %}
-
+<div class = container>
 {% if username %}
-    <h1> Hello {{ username }}</h1>
 
-    {% else %}
+    <h1> {{ username }} Created, please go to /login to proceed...</h1>
+    <a href={{ url_for('auth.login') }}>Click here :)</a>
 
-    <div class = container>
+{% else %}
+
+
         <h1>Sign up</h1><br/>
         <div class="mb-3">
-            <form method="POST">
+
+            <form name='signup_form' method="POST">
                 {{ form.hidden_tag() }}
+
                 {{ form.email.label(class="form-label") }} {{ form.email (class="form-control") }}<br/>
                 {{ form.username.label(class="form-label") }} {{ form.username (class="form-control") }} <br/>
                 {{ form.password.label (class="form-label")}} {{ form.password (class="form-control")}} <br/>
                 {{ form.repeat_pass.label (class="form-label")}} {{ form.repeat_pass (class="form-control")}} <br/>
+
                 {{ form.create_user(class="btn btn-secondary") }}
+
             </form>
         </div>
-    </div>
+</div>
 
 {% endif %}
 
