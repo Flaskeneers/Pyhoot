@@ -3,14 +3,15 @@
         <ul>
             <li>Home</li>
             <li>About</li>
-{#            {% if user.is_logged_in %}#}
-{#                <li>Play</li>#}
-{#                <li>Profile</li>#}
-{#                <li>Logout</li>#}
-{#            {% else %}#}
-{#                <li>Signup</li>#}
-{#                <li>Login</li>#}
-{#            {% endif %}#}
+            <li><a href="{{ url_for('user.view_profile') }}">Profile</a></li>
+            {#            {% if user.is_logged_in %}#}
+            {#                <li>Play</li>#}
+            {#                <li>Profile</li>#}
+            {#                <li>Logout</li>#}
+            {#            {% else %}#}
+            {#                <li>Signup</li>#}
+            {#                <li>Login</li>#}
+            {#            {% endif %}#}
         </ul>
     </nav>
 </header>
