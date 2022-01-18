@@ -58,3 +58,7 @@ def verify_password(username: str, password: str) -> bool:
     hashed = User.collection.find_one({'username': username},
                                       {'password': 1, '_id': False}).get('password')
     return check_password_hash(hashed, password)
+
+
+
+

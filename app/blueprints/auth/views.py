@@ -1,11 +1,11 @@
-from flask import render_template
+from flask import render_template, flash
 
+from . import bp_auth
 from .forms import SignupForm, LoginForm
 from app.persistence.repository.user_repo import create_user, get_by_username, check_existing_users, verify_password
-from . import bp_auth
 
 
-@bp_auth.route("/signup", methods=['GET', 'POST'])
+@bp_auth.route("/signup/", methods=['GET', 'POST'])
 def signup():
 
     username = None
@@ -21,11 +21,14 @@ def signup():
 
         if check_existing_users(username, email):
             create_user(email, username, password)
+            flash('User Created!')
+        else:
+            flash('Something went wrong...')
 
-    return render_template("auth/signup.html", username=username, password=password, form=form)
+    return render_template("auth/signup.html", username=username, form=form)
 
 
-@bp_auth.route("/login", methods=['GET', 'POST'])
+@bp_auth.route("/login/", methods=['GET', 'POST'])
 def login():
     form = LoginForm()
 
@@ -38,9 +41,11 @@ def login():
                 return render_template("auth/login.html", form=form, username=username)
 
             else:
-                print('Invalid Credentials')
+                flash('Invalid Credentials')
 
         else:
-            print('Invalid Credentials')
+            flash('Invalid Credentials')
 
     return render_template("auth/login.html", form=form)
+
+
