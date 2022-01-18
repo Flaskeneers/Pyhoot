@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %}Profile{% endblock %}
+
+{% block page_content %}
+    <h1>Profile</h1>
+    <hr>
+    <section>
+        <h2>Quiz</h2>
+    </section>
+    <hr>
+    <section>
+        <h2>Question</h2>
+        <ul>
+            <li><a href="{{ url_for('user.create_question_get') }}">Create Question</a></li>
+            <li><a href="{{ url_for('user.delete_all_questions') }}">Delete All Questions</a></li>
+        </ul>
+        <hr>
+        {% if questions %}
+            <ul>
+                {% for question in questions %}
+                    <li>
+                        <a href="{{ url_for('user.detail_question_get', question_id=question.id) }}">
+                            {{ question.description }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </section>
+{% endblock %}
