@@ -3,18 +3,7 @@ import wtforms as wtf
 from wtforms.validators import DataRequired
 
 
-# region Profile
-
-class EditProfileForm(FlaskForm):
-    pass
-
-
-# endregion profile
-
-
-# region Question
-
-class AnswerForm(FlaskForm):
+class AnswerForm(wtf.Form):
     text = wtf.StringField("", validators=[DataRequired()])
 
 
@@ -31,19 +20,4 @@ class CreateQuestionForm(BaseQuestionForm):
 
 
 class EditQuestionForm(BaseQuestionForm):
-    submit = wtf.SubmitField("Update Question")
-
-
-# endregion Question
-
-
-# region Quiz
-
-class CreateQuizForm(FlaskForm):
-    pass
-
-
-class EditQuizForm(FlaskForm):
-    pass
-
-# endregion Quiz
+    submit = wtf.SubmitField("Edit Question")

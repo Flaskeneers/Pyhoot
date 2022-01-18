@@ -7,21 +7,19 @@
     <hr>
     <section>
         <h2>Quiz</h2>
-    </section>
-    <hr>
-    <section>
-        <h2>Question</h2>
         <ul>
-            <li><a href="{{ url_for('user.create_question_get') }}">Create Question</a></li>
+            <li><a href="{{ url_for('user.create_quiz_get') }}">Create Quiz</a></li>
+            <li><a href="{{ url_for('user.delete_all_quizzes') }}">Delete All Quizzes</a></li>
             <li><a href="{{ url_for('user.delete_all_questions') }}">Delete All Questions</a></li>
+
         </ul>
-        <hr>
-        {% if questions %}
+        {% if quizzes %}
+            <h3>All Quizzes</h3>
             <ul>
-                {% for question in questions %}
+                {% for quiz in quizzes %}
                     <li>
-                        <a href="{{ url_for('user.detail_question_get', question_id=question.id) }}">
-                            {{ question.description }}</a>
+                        <a href="{{ url_for('user.detail_quiz_get', quiz_id=quiz.id) }}">
+                            {{ quiz.title }}</a>
                     </li>
                 {% endfor %}
             </ul>
