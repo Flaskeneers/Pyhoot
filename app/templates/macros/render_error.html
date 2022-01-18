@@ -1,0 +1,11 @@
+{% macro render_errors(field) %}
+    {% if field.errors %}
+        <ul class="list-unstyled">
+            {% for error in field.errors %}
+                <li>
+                    <span style="color: red;">{{ error }}</span>
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+{% endmacro %}
