@@ -1,36 +1,9 @@
 from flask import flash, redirect, render_template, url_for
 
-from . import bp_user
-from .forms import CreateQuestionForm, EditQuestionForm
+from .. import bp_user
+from ..forms import CreateQuestionForm, EditQuestionForm
+from ..utils import get_clean_question_form_data
 from app.controllers import question_controller as qc
-
-
-# region Profile
-
-@bp_user.get("/profile")
-def view_profile():
-    questions = qc.get_all()
-    return render_template("user/profile/view.html",
-                           questions=questions)
-
-
-# @bp_user.get("/profile")
-# def edit_profile():
-#     pass
-
-
-# endregion Profile
-
-
-# region Question
-
-def get_clean_question_form_data(form_data: dict) -> dict:
-    return dict(
-        description=form_data["description"],
-        correct_answer=form_data["correct_answer"]["text"],
-        wrong_answers=[wrong_answer["text"] for wrong_answer
-                       in form_data["wrong_answers"]]
-    )
 
 
 @bp_user.get("/questions")
@@ -103,41 +76,3 @@ def delete_all_questions():
     qc.delete_all()
     flash("All questions deleted.", category="success")
     return redirect(url_for(".view_profile"))
-
-
-# endregion Question
-
-
-# region Quiz
-
-
-@bp_user.get("/quizzes")
-def create_quiz_get():
-    pass
-
-
-@bp_user.post("/quizzes")
-def create_quiz_post():
-    pass
-
-
-@bp_user.get("/quizzes/detail/<quiz_id>")
-def detail_quiz_get():
-    pass
-
-
-@bp_user.get("/quizzes/edit/<quiz_id>")
-def edit_quiz_get():
-    pass
-
-
-@bp_user.put("/quizzes/edit/<quiz_id>")
-def edit_quiz_post():
-    pass
-
-
-@bp_user.delete("/quizzes/delete/<quiz_id>")
-def delete_quiz():
-    pass
-
-# endregion Quiz
