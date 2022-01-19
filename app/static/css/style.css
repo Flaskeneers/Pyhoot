@@ -8,6 +8,17 @@ h1 {
     color: #7f6df2;
 }
 
+.navbar {
+    background: #202020 !important;
+}
+
+.navbar-brand{
+    color: #483699 !important;
+}
+.nav-link {
+    color: #7f6df2 !important;
+}
+.nav-link
 .btn-secondary {
     background-color: rgb(72, 54, 153) !important;
 
