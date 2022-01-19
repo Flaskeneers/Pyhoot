@@ -29,7 +29,6 @@ def create_question_post(quiz_id: str):
         data = get_clean_question_form_data(form.data)
         question = question_controller.create(**data)
 
-        # TODO: append question to quiz
         quiz_controller.add_question_to_quiz(question, quiz)
 
         flash("Question created successfully.", category="success")

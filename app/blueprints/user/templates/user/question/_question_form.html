@@ -12,14 +12,14 @@
     <div class="form-label">
         {{ form.correct_answer.label }}
     </div>
-    {{ form.correct_answer(class="") }}
+    {{ form.correct_answer(class="form-control") }}
     {{ render_errors(form.correct_answer.text) }}
 
     <div class="form-label">
         {{ form.wrong_answers.label }}
     </div>
     {% for wrong_answer in form.wrong_answers %}
-        {{ wrong_answer(class="") }}
+        {{ wrong_answer(class="form-control") }}
         {{ render_errors(wrong_answer.text) }}
     {% endfor %}
 

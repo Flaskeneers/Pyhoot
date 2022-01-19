@@ -7,6 +7,7 @@ class AnswerForm(wtf.Form):
     text = wtf.StringField("", validators=[DataRequired()])
 
 
+# TODO: change DataRequired() to InputRequired()
 class BaseQuestionForm(FlaskForm):
     description = wtf.StringField("Description",
                                   validators=[DataRequired()])
