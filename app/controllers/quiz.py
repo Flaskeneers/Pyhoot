@@ -14,6 +14,14 @@ def get_all() -> list[repo.Quiz]:
     return repo.get_all()
 
 
+def get_all_by_username(username: str) -> list[repo.Quiz]:
+    return repo.get_all_by_username(username)
+
+
+def delete_all_by_username(username: str) -> int:
+    return repo.delete_all_by_username(username)
+
+
 def get_by_id(_id: str) -> repo.Quiz:
     return repo.get_by_id(_id)
 
