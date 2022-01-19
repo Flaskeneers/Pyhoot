@@ -1,3 +1,18 @@
 body {
-    background: burlywood !important;
+    background: #202020;
+    color: #dcddde;
+    /* Highlight - text = 7f6df2 */
+    /* text-muted = #999 */
+}
+h1 {
+    color: #7f6df2;
+}
+
+.btn-secondary {
+    background-color: rgb(72, 54, 153) !important;
+
+}
+.btn-secondary:hover {
+    background-color: #483699 !important;
+
 }
