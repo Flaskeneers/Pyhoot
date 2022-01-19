@@ -6,3 +6,5 @@ bp_guest = Blueprint(name="guest",
                      static_folder="static")
 
 from . import errors, views
+
+
