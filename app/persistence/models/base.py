@@ -3,6 +3,14 @@ from abc import ABC
 from pymongo.collection import Collection
 
 
+class Result(list):
+    def first(self):
+        return self[0] if len(self) > 0 else None
+
+    def last(self):
+        return self[-1] if len(self) > 0 else None
+
+
 class Document(dict, ABC):
     collection: Collection = None
 
