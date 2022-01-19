@@ -3,14 +3,6 @@
 
 {% block page_content %}
 <div class = container>
-    {% if username %}
-
-        <h1> Welcome {{ username }}!</h1>
-
-        <p class="m-4"> We're rebuilding the page, so we dont have any content here for you ... yet.</p>
-
-{% else %}
-
         <h1>Log in</h1><br/>
         <div class="mb-3">
             <form method="POST" novalidate>
@@ -34,8 +26,6 @@
             </form>
         </div>
 </div>
-
-{% endif %}
 
 
 {%  endblock %}

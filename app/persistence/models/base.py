@@ -48,3 +48,11 @@ class Document(dict, ABC):
     @property
     def id(self) -> str:
         return str(self._id)
+
+    @classmethod
+    def find(cls, **kwargs):
+        return Result(cls(item) for item in cls.collection.find(kwargs))
+
+    @classmethod
+    def delete_many(cls, **kwargs):
+        cls.collection.delete_many(kwargs)

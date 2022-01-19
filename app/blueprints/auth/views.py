@@ -1,4 +1,5 @@
-from flask import render_template, flash
+from flask import render_template, flash, redirect, url_for
+from flask_login import login_user, logout_user, login_required
 
 from . import bp_auth
 from .forms import SignupForm, LoginForm
@@ -7,7 +8,6 @@ from app.persistence.repository.user_repo import create_user, get_by_username, c
 
 @bp_auth.route("/signup/", methods=['GET', 'POST'])
 def signup():
-
     username = None
     form = SignupForm()
 
@@ -34,9 +34,15 @@ def login():
         username = form.username.data
         password = form.password.data
 
-        if get_by_username(username) is not None:
+        user = get_by_username(username)
+
+        if user is not None:
             if verify_password(username, password):
-                return render_template("auth/user.html", form=form, username=username)
+                login_user(user)
+                flash(user.email)
+                flash(user.username)
+
+                return redirect(url_for("user.view_profile"))
 
             else:
                 flash('Invalid Credentials')
@@ -47,3 +53,8 @@ def login():
     return render_template("auth/login.html", form=form)
 
 
+@bp_auth.get('/logout')
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for('guest.index'))
