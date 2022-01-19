@@ -37,14 +37,14 @@ class Document(dict, ABC):
 
     def update_with(self, new_values: dict) -> None:
         self.__dict__.update(new_values)
-        self.collection.replace_one({"_id": self.id}, self.__dict__)
+        self.collection.replace_one({"_id": self._id}, self.__dict__)
 
     def delete(self) -> None:
-        self.collection.delete({"_id": self.id})
+        self.collection.delete_one({"_id": self._id})
 
     def delete_field(self, field: str) -> None:
         self.collection.update_one({"_id": self._id}, {"$unset": {field: ""}})
 
     @property
     def id(self) -> str:
-        return self._id
+        return str(self._id)

@@ -23,6 +23,16 @@ def get_by_id(_id: str) -> Question:
     return ResultList(Question(item) for item in Question.collection.find(dict(_id=ObjectId(_id)))).first_or_none()
 
 
+def update_by_id(_id: str, new_data: dict) -> None:
+    question = get_by_id(_id)
+    question.update_with(new_data)
+
+
+def delete_by_id(_id: str) -> None:
+    question = get_by_id(_id)
+    question.delete()
+
+
 def delete_all(query: dict | None = None) -> int:
     result = Question.collection.delete_many(query if query else {})
     return result.deleted_count

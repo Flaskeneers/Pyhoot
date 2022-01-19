@@ -30,3 +30,6 @@ def register_blueprints(_app: Flask) -> None:
 
     from app.blueprints.guest import bp_guest
     _app.register_blueprint(bp_guest)
+
+    from app.blueprints.user import bp_user
+    _app.register_blueprint(bp_user)

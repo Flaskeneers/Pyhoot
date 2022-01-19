@@ -4,5 +4,5 @@ from .base import Document
 from ..db import db
 
 
-class Question(Document):
-    collection: Collection = db.questions
+class Quiz(Document):
+    collection: Collection = db.quizzes
