@@ -13,9 +13,7 @@ def create(**kwargs) -> Quiz:
 
 
 def get_by_id(_id: str) -> Quiz | None:
-    return ResultList(Quiz(item) for item in
-                      Quiz.collection.find(dict(_id=ObjectId(_id)))).first_or_none()
-    # return Quiz(Quiz.collection.find_one(dict(_id=ObjectId(_id))))
+    return Quiz(Quiz.collection.find_one(dict(_id=ObjectId(_id))))
 
 
 def get_all() -> list[Quiz]:

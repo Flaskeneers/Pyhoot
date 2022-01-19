@@ -15,8 +15,7 @@ def get_all() -> list[Question]:
 
 
 def get_by_id(_id: str) -> Question | None:
-    return ResultList(Question(item) for item in
-                      Question.collection.find(dict(_id=ObjectId(_id)))).first_or_none()
+    return Question(Question.collection.find_one(dict(_id=ObjectId(_id))))
 
 
 def update_by_id(_id: str, new_data: dict) -> None:
