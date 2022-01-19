@@ -9,8 +9,6 @@ from app.persistence.repository.user_repo import create_user, get_by_username, c
 def signup():
 
     username = None
-    password = None
-
     form = SignupForm()
 
     # If all fields in form is correct...
@@ -23,7 +21,7 @@ def signup():
             create_user(email, username, password)
             flash('User Created!')
         else:
-            flash('Something went wrong...')
+            flash('Username Already Exists')
 
     return render_template("auth/signup.html", username=username, form=form)
 
@@ -38,7 +36,7 @@ def login():
 
         if get_by_username(username) is not None:
             if verify_password(username, password):
-                return render_template("auth/login.html", form=form, username=username)
+                return render_template("auth/user.html", form=form, username=username)
 
             else:
                 flash('Invalid Credentials')
