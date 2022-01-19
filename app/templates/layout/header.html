@@ -7,7 +7,7 @@
               <li class="nav-item active">
                 <a class="nav-link" href="{{ url_for('guest.index') }}">Home <span class="sr-only"></span></a>
               </li>
-          
+        {% if current_user.is_authenticated %}
             <li class="nav-item">
                 <a class="nav-link" href="{{ url_for('user.view_profile') }}">Profile <span class="sr-only"></span></a>
               </li>
@@ -20,6 +20,7 @@
                 <a class="nav-link" href={{ url_for('auth.login') }}>Login</a>
               </li>
         </ul>
+        {% endif %}
   </div>
 </nav>
 </header>
