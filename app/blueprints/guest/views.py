@@ -4,9 +4,20 @@ from . import bp_guest
 from app.persistence.repository import question_repo
 
 
+@bp_guest.get("/home")
 @bp_guest.get("/")
 def index():
     return render_template("guest/index.html")
+
+
+@bp_guest.get("/about")
+def about():
+    return render_template("guest/about.html")
+
+
+@bp_guest.get("/leaderboard")
+def leaderboard():
+    return render_template("guest/leaderboard.html")
 
 
 @bp_guest.get("/question")
