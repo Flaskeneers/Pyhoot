@@ -5,9 +5,19 @@ def create(created_by: str,
            title: str,
            questions: list[repo.Question] = None
            ) -> repo.Quiz:
-    return repo.create(created_by=created_by,
-                       title=title,
-                       questions=questions)
+    data = dict(
+        created_by=created_by,
+        title=title
+    )
+
+    if questions:
+        data["questions"] = questions
+
+    return repo.create(**data)
+
+
+def get_by_id(_id: str) -> repo.Quiz:
+    return repo.get_by_id(_id)
 
 
 def get_all() -> list[repo.Quiz]:
@@ -20,10 +30,6 @@ def get_all_by_username(username: str) -> list[repo.Quiz]:
 
 def delete_all_by_username(username: str) -> int:
     return repo.delete_all_by_username(username)
-
-
-def get_by_id(_id: str) -> repo.Quiz:
-    return repo.get_by_id(_id)
 
 
 def update_by_id(_id: str, new_data: dict) -> None:
