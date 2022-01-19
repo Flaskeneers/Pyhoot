@@ -1,6 +1,11 @@
-flask
+flask~=2.0.2
 flask-login
 flask-sqlalchemy
 flask-wtf
-pymongo
-python-dotenv
+pymongo~=4.0.1
+python-dotenv~=0.19.2
+WTForms~=3.0.1
+
+
+SQLAlchemy~=1.4.29
+Werkzeug~=2.0.2
