@@ -86,12 +86,7 @@ def remove_question_from_quiz(question: Question, quiz: Quiz) -> None:
 
     for index, question_dict in enumerate(quiz.questions):
         if question_dict["_id"] == question._id:
-            print("inside")
-            print(question_dict["_id"])
-            print(question._id)
-            print(f"equal = {question_dict['_id'] == question._id}")
             question_repo.delete_by_id(question._id)
-            # question_repo.delete_by_id(question.id)
 
             quiz.questions.pop(index)
             if is_questions_empty(quiz.questions):
