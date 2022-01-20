@@ -27,3 +27,8 @@ h1 {
     background-color: #483699 !important;
 
 }
+
+/* Toast notifications */
+.toast-overlay {
+    z-index: 999999 !important;
+}

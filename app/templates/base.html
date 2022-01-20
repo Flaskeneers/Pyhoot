@@ -20,8 +20,11 @@
 {% include "layout/footer.html" %}
 
 {% block scripts %}
+    <!-- Bootstrap Core JS -->
     <script src="{{ url_for('static', filename='libs/bootstrap/js/bootstrap.min.js') }}"></script>
+    <!-- Custom JS -->
     <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/toasts.js') }}"></script>
 {% endblock %}
 
 </body>
