@@ -25,7 +25,7 @@ def update_by_id(_id: str, new_data: dict) -> None:
 
 def delete_by_id(_id: str) -> None:
     question = get_by_id(_id)
-    if question is not None:
+    if question:
         question.delete()
 
 

@@ -11,7 +11,7 @@ from app.controllers import quiz as quiz_controller
 @bp_user.get("/questions/create/<quiz_id>")
 @login_required
 def create_question_get(quiz_id: str):
-    if quiz_controller.get_by_id(quiz_id) is None:
+    if not quiz_controller.get_by_id(quiz_id):
         flash("Quiz not found.", category="error")
         return redirect(url_for(".view_profile"))
 
@@ -23,7 +23,7 @@ def create_question_get(quiz_id: str):
 @bp_user.post("/questions/create/<quiz_id>")
 @login_required
 def create_question_post(quiz_id: str):
-    if (quiz := quiz_controller.get_by_id(quiz_id)) is None:
+    if not (quiz := quiz_controller.get_by_id(quiz_id)):
         flash("Quiz not found.", category="error")
         return redirect(url_for(".view_profile"))
 
@@ -45,7 +45,7 @@ def create_question_post(quiz_id: str):
 @login_required
 def detail_question_get(question_id: str):
     question = question_controller.get_by_id(question_id)
-    if question is None:
+    if not question:
         flash("Question not found.", category="error")
         return redirect(url_for(".view_profile"))
     return render_template("user/question/detail.html",
@@ -65,7 +65,7 @@ def edit_question_in_quiz_get():
     question = question_controller.get_by_id(question_id)
     quiz = quiz_controller.get_by_id(quiz_id)
 
-    if question is None or quiz is None:
+    if not question or not quiz:
         flash("Question and/or Quiz not found.", category="error")
         return redirect(url_for(".view_profile"))
 
@@ -89,7 +89,7 @@ def edit_question_in_quiz_post():
     question = question_controller.get_by_id(question_id)
     quiz = quiz_controller.get_by_id(quiz_id)
 
-    if question is None or quiz is None:
+    if not question or not quiz:
         flash("Question and/or Quiz not found.", category="error")
         return redirect(url_for(".view_profile"))
 
@@ -120,7 +120,7 @@ def delete_question_in_quiz():
     quiz = quiz_controller.get_by_id(quiz_id)
 
     # TODO: edit and delete reuse this in controller/repo function
-    if question is None or quiz is None:
+    if not question or not quiz:
         flash("Question and/or Quiz not found.", category="error")
         return redirect(url_for(".view_profile"))
 

@@ -146,7 +146,8 @@ def has_quizzes(user: User) -> bool:
 
 def add_quiz_to_user(quiz_id: str, username: str) -> None:
     user = user_repo.get_by_username(username)
-    if user is None:
+
+    if not user:
         return None
 
     if not hasattr(user, "quizzes"):
@@ -161,7 +162,7 @@ def add_quiz_to_user(quiz_id: str, username: str) -> None:
 
 def remove_quiz_from_user(quiz_id: str, username: str) -> None:
     user = user_repo.get_by_username(username)
-    if user is None or not has_quizzes(user) or not has_quiz(quiz_id, user):
+    if not user or not has_quizzes(user) or not has_quiz(quiz_id, user):
         return
 
     for index, _id in enumerate(user.quizzes):

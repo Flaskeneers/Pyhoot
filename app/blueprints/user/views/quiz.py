@@ -30,7 +30,7 @@ def create_quiz_post():
 @login_required
 def detail_quiz_get(quiz_id: str):
     quiz = quiz_controller.get_by_id(quiz_id)
-    if quiz is None:
+    if not quiz:
         flash("Question not found.", category="error")
         return redirect(url_for(".view_profile"))
     return render_template("user/quiz/detail.html",
@@ -51,7 +51,7 @@ def edit_quiz_get(quiz_id: str):
 def edit_quiz_post(quiz_id: str):
     form = EditQuizForm()
     if form.validate_on_submit():
-        if quiz_controller.get_by_id(quiz_id) is None:
+        if not quiz_controller.get_by_id(quiz_id):
             flash("Quiz not found.", category="error")
         else:
             quiz_controller.update_by_id(quiz_id, new_data={"title": form.title.data})
@@ -67,11 +67,10 @@ def edit_quiz_post(quiz_id: str):
 @bp_user.get("/quizzes/delete/<quiz_id>")
 @login_required
 def delete_quiz(quiz_id: str):
-    if quiz_controller.get_by_id(quiz_id) is None:
+    if not quiz_controller.get_by_id(quiz_id):
         flash("Quiz not found.", category="error")
     else:
         quiz_controller.delete_by_id(quiz_id)
-        # quiz_controller.remove_quiz_from_user(quiz_id, current_user.username)
         flash("Quiz deleted successfully.", category="success")
     return redirect(url_for(".view_profile"))
 
@@ -87,7 +86,7 @@ def delete_my_quizzes():
 @bp_user.get("/quizzes/delete/questions/<quiz_id>")
 @login_required
 def delete_all_questions_in_quiz(quiz_id: str):
-    if (quiz := quiz_controller.get_by_id(quiz_id)) is None:
+    if not (quiz := quiz_controller.get_by_id(quiz_id)):
         flash("Quiz not found.", category="error")
     else:
         quiz_controller.remove_all_questions(quiz)
