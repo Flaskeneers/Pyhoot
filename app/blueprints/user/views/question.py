@@ -86,18 +86,14 @@ def edit_question_in_quiz_post():
         flash("Invalid request args.", category="error")
         return redirect(url_for(".view_profile"))
 
-    question = question_controller.get_by_id(question_id)
-    quiz = quiz_controller.get_by_id(quiz_id)
-
-    if not question or not quiz:
-        flash("Question and/or Quiz not found.", category="error")
-        return redirect(url_for(".view_profile"))
-
     form = EditQuestionForm()
     if form.validate_on_submit():
         new_data = get_clean_question_form_data(form.data)
-        quiz_controller.edit_question_in_quiz(question, quiz, new_data)
-        flash("Question edited successfully.", category="success")
+
+        if not quiz_controller.has_updated_question_in_quiz(question_id, quiz_id, new_data):
+            flash("Invalid Question ID.", category="success")
+        else:
+            flash("Question edited successfully.", category="success")
         return redirect(url_for(".detail_quiz_get", quiz_id=quiz_id))
     else:
         return render_template("user/question/edit.html",
@@ -116,16 +112,10 @@ def delete_question_in_quiz():
         flash("Invalid request args.", category="error")
         return redirect(url_for(".view_profile"))
 
-    question = question_controller.get_by_id(question_id)
-    quiz = quiz_controller.get_by_id(quiz_id)
-
-    # TODO: edit and delete reuse this in controller/repo function
-    if not question or not quiz:
-        flash("Question and/or Quiz not found.", category="error")
-        return redirect(url_for(".view_profile"))
-
-    quiz_controller.remove_question_from_quiz(question, quiz)
-    flash("Question deleted successfully.", category="success")
+    if not quiz_controller.has_removed_question_from_quiz(question_id, quiz_id):
+        flash("Invalid Question ID.", category="error")
+    else:
+        flash("Question deleted successfully.", category="success")
     return redirect(url_for(".detail_quiz_get", quiz_id=quiz_id))
 
 

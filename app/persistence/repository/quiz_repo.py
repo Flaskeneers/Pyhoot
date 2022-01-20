@@ -55,6 +55,17 @@ def add_question_to_quiz(question: Question, quiz: Quiz) -> None:
         quiz.save()
 
 
+def has_updated_question_in_quiz(question_id: str, quiz_id: str, new_data: dict) -> bool:
+    question = question_repo.get_by_id(question_id)
+    quiz = get_by_id(quiz_id)
+
+    if not question or not quiz:
+        return False
+
+    edit_question_in_quiz(question, quiz, new_data)
+    return True
+
+
 def edit_question_in_quiz(question: Question,
                           quiz: Quiz,
                           new_data: dict) -> None:
@@ -68,6 +79,17 @@ def edit_question_in_quiz(question: Question,
             quiz.questions[index].update(new_data)
             quiz.save()
             return
+
+
+def has_removed_question_from_quiz(question_id: str, quiz_id: str) -> bool:
+    question = question_repo.get_by_id(question_id)
+    quiz = get_by_id(quiz_id)
+
+    if not question or not quiz:
+        return False
+
+    remove_question_from_quiz(question, quiz)
+    return True
 
 
 def remove_question_from_quiz(question: Question, quiz: Quiz) -> None:

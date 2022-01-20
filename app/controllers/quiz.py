@@ -43,10 +43,18 @@ def add_question_to_quiz(question: repo.Question, quiz: repo.Quiz) -> None:
     repo.add_question_to_quiz(question, quiz)
 
 
+def has_updated_question_in_quiz(question_id: str, quiz_id: str, new_data: dict) -> bool:
+    return repo.has_updated_question_in_quiz(question_id, quiz_id, new_data)
+
+
 def edit_question_in_quiz(question: repo.Question,
                           quiz: repo.Quiz,
                           new_data: dict) -> None:
     return repo.edit_question_in_quiz(question, quiz, new_data)
+
+
+def has_removed_question_from_quiz(question_id: str, quiz_id: str) -> bool:
+    return repo.has_removed_question_from_quiz(question_id, quiz_id)
 
 
 def remove_question_from_quiz(question: repo.Question, quiz: repo.Quiz) -> None:
