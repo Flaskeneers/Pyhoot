@@ -28,6 +28,9 @@ class Document(dict, ABC):
         attributes = "\n".join(f"\t{k}: {v}" for k, v in self.__dict__.items())
         return f"{self.__class__.__name__}:\n{attributes}"
 
+    def __bool__(self) -> bool:
+        return self.__dict__ != {}
+
     def save(self) -> None:
         if not self._id:
             del self.__dict__["_id"]
