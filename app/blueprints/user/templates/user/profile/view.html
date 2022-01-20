@@ -11,9 +11,7 @@
         <h2>Quiz</h2>
         <ul>
             <li><a href="{{ url_for('user.create_quiz_get') }}">Create Quiz</a></li>
-            <li><a href="{{ url_for('user.delete_all_quizzes') }}">Delete All Quizzes</a></li>
-            <li><a href="{{ url_for('user.delete_all_questions') }}">Delete All Questions</a></li>
-
+            <li><a href="{{ url_for('user.delete_my_quizzes') }}">Delete My Quizzes</a></li>
         </ul>
         {% if quizzes %}
             <h3>All Quizzes</h3>

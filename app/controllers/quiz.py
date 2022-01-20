@@ -5,17 +5,26 @@ def create(created_by: str,
            title: str,
            questions: list[repo.Question] = None
            ) -> repo.Quiz:
-    return repo.create(created_by=created_by,
-                       title=title,
-                       questions=questions)
+    data = dict(
+        created_by=created_by,
+        title=title
+    )
 
+    if questions:
+        data["questions"] = questions
 
-def get_all() -> list[repo.Quiz]:
-    return repo.get_all()
+    quiz = repo.create(**data)
+    add_quiz_to_user(quiz.id, created_by)
+    return quiz
+    # return repo.create(**data)
 
 
 def get_by_id(_id: str) -> repo.Quiz:
     return repo.get_by_id(_id)
+
+
+def get_all() -> list[repo.Quiz]:
+    return repo.get_all()
 
 
 def update_by_id(_id: str, new_data: dict) -> None:
@@ -46,3 +55,24 @@ def remove_question_from_quiz(question: repo.Question, quiz: repo.Quiz) -> None:
 
 def remove_all_questions(quiz: repo.Quiz) -> None:
     repo.remove_all_questions(quiz)
+
+
+# region User-Quiz
+
+
+def get_all_quizzes_by_username(username: str) -> list[repo.Quiz]:
+    return repo.get_all_quizzes_by_username(username)
+
+
+def delete_all_quizzes_by_username(username: str) -> int:
+    return repo.delete_all_quizzes_by_username(username)
+
+
+def add_quiz_to_user(quiz_id: str, username: str) -> None:
+    return repo.add_quiz_to_user(quiz_id, username)
+
+
+def remove_quiz_from_user(quiz_id: str, username: str) -> None:
+    return repo.remove_quiz_from_user(quiz_id, username)
+
+# endregion User-Quiz

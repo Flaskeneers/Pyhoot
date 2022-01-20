@@ -4,23 +4,18 @@ from app.persistence.models.question import Question
 from app.shared.resultlist import ResultList
 
 
-def create(description: str, correct_answer: str, wrong_answers: list[str]) -> Question:
-    data = dict(
-        description=description,
-        correct_answer=correct_answer,
-        wrong_answers=wrong_answers
-    )
-    question = Question(data)
+def create(**kwargs) -> Question:
+    question = Question(kwargs)
     question.save()
     return question
 
 
 def get_all() -> list[Question]:
-    return ResultList(Question(item) for item in Question.collection.find())
+    return ResultList(Question(item) for item in Question.find())
 
 
-def get_by_id(_id: str) -> Question:
-    return ResultList(Question(item) for item in Question.collection.find(dict(_id=ObjectId(_id)))).first_or_none()
+def get_by_id(_id: str) -> Question | None:
+    return Question(Question.collection.find_one(dict(_id=ObjectId(_id))))
 
 
 def update_by_id(_id: str, new_data: dict) -> None:
@@ -30,7 +25,8 @@ def update_by_id(_id: str, new_data: dict) -> None:
 
 def delete_by_id(_id: str) -> None:
     question = get_by_id(_id)
-    question.delete()
+    if question is not None:
+        question.delete()
 
 
 def delete_all(query: dict | None = None) -> int:
