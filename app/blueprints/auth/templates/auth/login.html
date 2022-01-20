@@ -1,31 +1,40 @@
 {% extends 'base.html' %}
-{% block title %}Sign up{% endblock %}
+{% block title %}Login{% endblock %}
 
 {% block page_content %}
-<div class = container>
-        <h1>Log in</h1><br/>
-        <div class="mb-3">
-            <form method="POST" novalidate>
+<div class = "container">
+        <div class="card login-form">
+            <card class="card-body">
+                <h1 class="card-title text-center">LOGIN</h1>
+                <div class="card-text">
+                    <form method="POST" novalidate>
+                        {{ form.hidden_tag() }}
+                        <div class="form-group">
+                        {{ form.username.label(class="form-label") }} {{ form.username (class="form-control form-control-sm",
+                                                                                            id="UsernameInput") }}
+                        {% for error in form.username.errors %}
+                                <p style="color: red">{{ error }}</p>
+                        {% endfor %}
+                        </div>
 
-                {{ form.hidden_tag() }}
+                        <div class="form-group">
+                        {{ form.password.label(class="form-label") }} {{ form.password (class="form-control form-control-sm",
+                                                                                            id="PasswordInput") }}
+                        {% for error in form.password.errors %}
+                                <p style="color: red">{{ error }}</p>
+                        {% endfor %}
 
-                {{ form.username.label(class="form-label") }} {{ form.username (class="form-control") }}
-                {% for error in form.username.errors %}
-                        <p style="color: red">{{ error }}</p>
-                {% endfor %}
-                <br/>
+                    <a href="#" style="float:right; font-size: 12px;">Forgot Password?</a>
+                        </div>
 
-                {{ form.password.label (class="form-label")}} {{ form.password (class="form-control")}}
-                {% for error in form.password.errors %}
-                        <p style="color: red">{{ error }}</p>
-                {% endfor %}
-                <br/>
 
-                {{ form.login_button(class="btn btn-secondary") }}
+                        {{ form.login_button(class="btn btn-primary btn-block") }}
 
-            </form>
+                    <div class="signup"> Don't have an account? <a href="{{ url_for('auth.signup') }}">Create one</a> </div>
+                    </form>
+                </div>
+            </card>
         </div>
-</div>
 
 
 {%  endblock %}
