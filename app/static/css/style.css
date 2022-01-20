@@ -2,7 +2,7 @@ html,
 body {
     height: 100%;
     background: #202020 !important;
-    font-family: "Fira Code", sans-serif;
+    font-family: "Fira", sans-serif;
     color: #dcddde;
     /* Highlight - text = 7f6df2 */
     /* text-muted = #999 */
@@ -64,6 +64,7 @@ form {
 
 h1 {
     color: #7f6df2;
+    font-weight: 900;
 }
 
 .btn-primary {
@@ -129,4 +130,7 @@ position: fixed;
     text-decoration: none;
     padding: 8px 16px;
     border-radius: 99px;
+}
+.menu a:hover{
+    background-color: #7f6df2;
 }
