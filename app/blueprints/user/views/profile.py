@@ -1,15 +1,18 @@
 from flask import flash, redirect, render_template, url_for
-from flask_login import current_user, login_required
 
 from .. import bp_user
 from ..forms.profile import EditProfileForm
+from app.controllers import question_controller
+from app.controllers import quiz_controller
 
 
 @bp_user.get("/profile")
-@login_required
 def view_profile():
+    questions = question_controller.get_all()
+    quizzes = quiz_controller.get_all()
     return render_template("user/profile/view.html",
-                           quizzes=current_user.my_quizzes)
+                           questions=questions,
+                           quizzes=quizzes)
 
 # @bp_user.get("/profile")
 # def edit_profile():
