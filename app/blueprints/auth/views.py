@@ -37,7 +37,7 @@ def login():
         user = get_by_username(username)
 
         if user is not None:
-            if verify_password(username, password):
+            if verify_password(user.password, password):
                 login_user(user)
                 flash(user.email)
                 flash(user.username)

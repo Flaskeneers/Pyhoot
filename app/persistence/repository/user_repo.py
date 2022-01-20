@@ -1,5 +1,3 @@
-from bson import ObjectId
-import uuid
 from werkzeug.security import generate_password_hash, check_password_hash
 
 from app.persistence.models.user import User
@@ -52,11 +50,8 @@ def check_existing_users(username: str, email: str) -> bool:
     return True
 
 
-def verify_password(username: str, password: str) -> bool:
+def verify_password(hashed: str, password: str) -> bool:
     """ Compares entered credentials with credentials in DB."""
-
-    hashed = User.collection.find_one({'username': username},
-                                      {'password': 1, '_id': False}).get('password')
     return check_password_hash(hashed, password)
 
 
