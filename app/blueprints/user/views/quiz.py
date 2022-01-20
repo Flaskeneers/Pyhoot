@@ -71,6 +71,7 @@ def delete_quiz(quiz_id: str):
         flash("Quiz not found.", category="error")
     else:
         quiz_controller.delete_by_id(quiz_id)
+        # quiz_controller.remove_quiz_from_user(quiz_id, current_user.username)
         flash("Quiz deleted successfully.", category="success")
     return redirect(url_for(".view_profile"))
 
@@ -78,7 +79,7 @@ def delete_quiz(quiz_id: str):
 @bp_user.get("/quizzes/delete")
 @login_required
 def delete_my_quizzes():
-    deleted_quizzes = quiz_controller.delete_all_by_username(current_user.username)
+    deleted_quizzes = quiz_controller.delete_all_quizzes_by_username(current_user.username)
     flash(f"{deleted_quizzes} quizzes deleted.", category="success")
     return redirect(url_for(".view_profile"))
 
