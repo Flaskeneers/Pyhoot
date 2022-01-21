@@ -4,8 +4,7 @@ from werkzeug.security import generate_password_hash
 
 from . import bp_auth
 from .forms import SignupForm, LoginForm, UpdateForm
-from app.controllers.users import create_user, get_by_username, check_existing_users, verify_password
-from ...controllers import user_controller
+from ...controllers import user as user_controller
 
 
 @bp_auth.route("/signup/", methods=['GET', 'POST'])
@@ -19,8 +18,8 @@ def signup():
         password = form.password.data
         email = form.email.data
 
-        if check_existing_users(username, email):
-            create_user(email, username, password)
+        if user_controller.check_existing_users(username, email):
+            user_controller.create_user(email, username, password)
             flash('User Created!')
         else:
             flash('Username Already Exists')
@@ -36,10 +35,10 @@ def login():
         username = form.username.data
         password = form.password.data
 
-        user = get_by_username(username)
+        user = user_controller.get_by_username(username)
 
         if user is not None:
-            if verify_password(user, password):
+            if user_controller.verify_password(user, password):
                 login_user(user)
                 flash(user.email)
                 flash(user.username)

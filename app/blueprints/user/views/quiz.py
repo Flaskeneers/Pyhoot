@@ -7,19 +7,18 @@ from app.controllers import quiz as quiz_controller
 
 
 @bp_user.get("/quizzes")
+@login_required
 def create_quiz_get():
     return render_template("user/quiz/create.html",
                            form=CreateQuizForm())
 
 
 @bp_user.post("/quizzes")
+@login_required
 def create_quiz_post():
     form = CreateQuizForm()
     if form.validate_on_submit():
-        # TODO: get real username from current_user
-        username = "pyhoot-master"
-        title = form.title.data
-        quiz = quiz_controller.create(created_by=username, title=title)
+        quiz = quiz_controller.create(created_by=current_user.username, title=form.title.data)
         flash("Quiz created successfully.", category="success")
         return redirect(url_for(".detail_quiz_get", quiz_id=quiz.id))
     flash("Failed to create quiz.", category="error")

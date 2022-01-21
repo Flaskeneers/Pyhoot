@@ -19,3 +19,7 @@ def verify_password(user, password):
 
 def get_all_users():
     return repo.get_all_users()
+
+
+def update_by_username(username, new_data):
+    return repo.update_by_username(username, new_data)
