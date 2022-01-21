@@ -22,7 +22,7 @@ def create_question_get(quiz_id: str):
 @bp_user.post("/quizzes/<quiz_id>/questions")
 @login_required
 def create_question_post(quiz_id: str):
-    if not (quiz := quiz_controller.get_by_id(quiz_id)):
+    if not quiz_controller.get_by_id(quiz_id):
         flash("Quiz not found.", category="error")
         return redirect(url_for(".view_profile"))
 
@@ -32,7 +32,7 @@ def create_question_post(quiz_id: str):
         quiz_controller.add_question_to_quiz(clean_data, quiz_id)
 
         flash("Question created successfully.", category="success")
-        return redirect(url_for(".detail_quiz_get", quiz_id=quiz.id))
+        return redirect(url_for(".detail_quiz_get", quiz_id=quiz_id))
     flash("Failed to create question.", category="error")
     return render_template("user/question/create.html",
                            form=form)
@@ -54,23 +54,10 @@ def detail_question_get(quiz_id: str, question_index: int):
 @bp_user.get("/quizzes/<quiz_id>/questions/<int:question_index>/edit")
 @login_required
 def edit_question_in_quiz_get(quiz_id: str, question_index: int):
-    quiz = quiz_controller.get_by_id(quiz_id)
+    question = quiz_controller.get_question_from_quiz(question_index, quiz_id)
 
-    # TODO: need safeguard against index error
-    question_data = quiz.questions[question_index]
-
-    # TODO: put in a separate module
-    from dataclasses import dataclass
-    @dataclass
-    class Question:
-        description: str
-        correct_answer: str
-        wrong_answers: list[str]
-
-    question = Question(**question_data)
-
-    if not question or not quiz:
-        flash("Question and/or Quiz not found.", category="error")
+    if not question:
+        flash("Question not found.", category="error")
         return redirect(url_for(".view_profile"))
 
     form = EditQuestionForm(obj=question)

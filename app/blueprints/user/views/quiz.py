@@ -26,7 +26,7 @@ def create_quiz_post():
                            form=form)
 
 
-@bp_user.get("/quizzes/detail/<quiz_id>")
+@bp_user.get("/quizzes/<quiz_id>")
 @login_required
 def detail_quiz_get(quiz_id: str):
     quiz = quiz_controller.get_by_id(quiz_id)
@@ -37,7 +37,7 @@ def detail_quiz_get(quiz_id: str):
                            quiz=quiz)
 
 
-@bp_user.get("/quizzes/edit/<quiz_id>")
+@bp_user.get("/quizzes/<quiz_id>/edit")
 @login_required
 def edit_quiz_get(quiz_id: str):
     quiz = quiz_controller.get_by_id(quiz_id)
@@ -46,7 +46,7 @@ def edit_quiz_get(quiz_id: str):
                            form=form)
 
 
-@bp_user.post("/quizzes/edit/<quiz_id>")
+@bp_user.post("/quizzes/<quiz_id>/edit")
 @login_required
 def edit_quiz_post(quiz_id: str):
     form = EditQuizForm()
@@ -54,7 +54,7 @@ def edit_quiz_post(quiz_id: str):
         if not quiz_controller.get_by_id(quiz_id):
             flash("Quiz not found.", category="error")
         else:
-            quiz_controller.update_by_id(quiz_id, new_data={"title": form.title.data})
+            quiz_controller.update_by_id(quiz_id, new_data=dict(title=form.title.data))
             flash("Quiz updated successfully.", category="success")
             return redirect(url_for(".detail_quiz_get", quiz_id=quiz_id))
 
@@ -64,7 +64,7 @@ def edit_quiz_post(quiz_id: str):
 
 
 # TODO: only owner or admin should be able to delete
-@bp_user.get("/quizzes/delete/<quiz_id>")
+@bp_user.get("/quizzes/<quiz_id>/delete")
 @login_required
 def delete_quiz(quiz_id: str):
     if not quiz_controller.get_by_id(quiz_id):
@@ -79,11 +79,11 @@ def delete_quiz(quiz_id: str):
 @login_required
 def delete_my_quizzes():
     deleted_quizzes = quiz_controller.delete_all_quizzes_by_username(current_user.username)
-    flash(f"{deleted_quizzes} quizzes deleted.", category="success")
+    flash(f"{deleted_quizzes} quizzes deleted from your account.", category="success")
     return redirect(url_for(".view_profile"))
 
 
-@bp_user.get("/quizzes/delete")
+@bp_user.get("/quizzes/delete/all")
 @login_required
 def delete_all_quizzes_in_database():
     quiz_controller.delete_all()
