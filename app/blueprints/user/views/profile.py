@@ -1,4 +1,5 @@
 from flask import flash, redirect, render_template, url_for
+from flask_login import current_user
 
 from .. import bp_user
 from ..forms.profile import EditProfileForm

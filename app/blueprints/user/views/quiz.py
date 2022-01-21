@@ -1,13 +1,9 @@
-from flask import flash, redirect, render_template, request, url_for
+from flask import flash, redirect, render_template, url_for
+from flask_login import current_user, login_required
 
 from .. import bp_user
-from ..forms.question import EditQuestionForm
 from ..forms.quiz import CreateQuizForm, EditQuizForm
-from app.controllers import question_controller, quiz_controller
-
-
-# region Quiz
-from ..utils import get_clean_question_form_data
+from app.controllers import quiz as quiz_controller
 
 
 @bp_user.get("/quizzes")

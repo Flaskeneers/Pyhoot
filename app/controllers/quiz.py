@@ -6,10 +6,8 @@ from app.shared import schemas
 
 def create(created_by: str,
            title: str,
-           questions: list[dict] = None
            ) -> schemas.Quiz:
     data = dict(created_by=created_by, title=title)
-
 
     quiz = quiz_repo.create(**data)
     add_quiz_to_user(quiz.id, created_by)

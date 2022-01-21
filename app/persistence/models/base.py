@@ -2,13 +2,7 @@ from abc import ABC
 
 from pymongo.collection import Collection
 
-
-class Result(list):
-    def first(self):
-        return self[0] if len(self) > 0 else None
-
-    def last(self):
-        return self[-1] if len(self) > 0 else None
+from app.shared.resultlist import ResultList
 
 
 class Document(dict, ABC):
@@ -59,7 +53,7 @@ class Document(dict, ABC):
 
     @classmethod
     def find(cls, **kwargs):
-        return Result(cls(item) for item in cls.collection.find(kwargs))
+        return ResultList(cls(item) for item in cls.collection.find(kwargs))
 
     @classmethod
     def delete_many(cls, **kwargs):

@@ -23,7 +23,7 @@ def initialize_extensions(_app: Flask) -> None:
     @login_manager.user_loader
     def load_user(user_id):
         from app.persistence.models.user import User
-        return User.find(username=user_id).first()
+        return User.find(username=user_id).first_or_none()
 
 
 def register_blueprints(_app: Flask) -> None:
