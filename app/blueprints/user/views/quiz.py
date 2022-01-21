@@ -83,18 +83,7 @@ def delete_my_quizzes():
     return redirect(url_for(".view_profile"))
 
 
-@bp_user.get("/quizzes/delete/questions/<quiz_id>")
-@login_required
-def delete_all_questions_in_quiz(quiz_id: str):
-    if not (quiz := quiz_controller.get_by_id(quiz_id)):
-        flash("Quiz not found.", category="error")
-    else:
-        quiz_controller.remove_all_questions(quiz)
-        flash("Quiz questions deleted successfully.", category="success")
-    return redirect(url_for(".detail_quiz_get", quiz_id=quiz_id))
-
-
-@bp_user.get("/quizzes/delete/all")
+@bp_user.get("/quizzes/delete")
 @login_required
 def delete_all_quizzes_in_database():
     quiz_controller.delete_all()
