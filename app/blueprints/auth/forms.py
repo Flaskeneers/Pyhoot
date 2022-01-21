@@ -1,3 +1,4 @@
+from flask_login import current_user
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, PasswordField
 from wtforms.validators import Length, InputRequired, Email, EqualTo, DataRequired
@@ -22,8 +23,12 @@ class LoginForm(FlaskForm):
 
     login_button = SubmitField('Login')
 
-class EditUser(FlaskForm):
 
-    email = StringField('E-mail: ', validators=[DataRequired(),Email()])
-    old_password:   PasswordField()
-    new_password:   PasswordField('New Password: ', validators=[DataRequired(), Length(3, 30)])
+class UpdateForm(FlaskForm):
+
+    email = StringField('E-mail: ', validators=[DataRequired()])
+    password = PasswordField('Current Password: ', validators=[InputRequired()])
+    new_password = PasswordField('New Password: ', validators=[InputRequired()])
+    repeat_password = PasswordField('Repeat New Password: ', validators=[InputRequired(), EqualTo('new_password')])
+
+    update_button = SubmitField('Update')

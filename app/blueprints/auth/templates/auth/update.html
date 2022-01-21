@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% block title %}Sign up{% endblock %}
+
+{% block page_content %}
+<div class = "container">
+        <div class="card signup-form">
+            <card class="card-body">
+                    <h1 class="card-title text-center">Update Profile</h1>
+
+                <div class="card-text">
+                    <form name='signup_form' method="POST" novalidate>
+
+                            {{ form.hidden_tag() }}
+                            <div class="form-group">
+                            {{ form.email.label(class="form-label") }} {{ form.email (class="form-control form-control-sm",
+                                                                                            id="EmailInput") }}
+                            {% for error in form.email.errors %}
+                                <p style="color: red">{{ error }}</p>
+                            {% endfor %}
+                            </div>
+
+                            <div class="form-group">
+                            {{ form.password.label (class="form-label")}} {{ form.password (class="form-control form-control-sm",
+                                                                                            id="PasswordInput") }}
+                            {% for error in form.password.errors %}
+                                    <p style="color: red">{{ error }}</p>
+                            {% endfor %}
+                            </div>
+
+                            <div class="form-group">
+                            {{ form.new_password.label (class="form-label")}} {{ form.new_password (class="form-control form-control-sm",
+                                                                                            id="PasswordInput") }}
+                            {% for error in form.new_password.errors %}
+                                    <p style="color: red">{{ error }}</p>
+                            {% endfor %}
+                            </div>
+
+                            <div class="form-group">
+                            {{ form.repeat_password.label (class="form-label")}} {{ form.repeat_password (class="form-control form-control-sm",
+                                                                                            id="PasswordInput") }}
+                            {% for error in form.repeat_password.errors %}
+                                    <p style="color: red">{{ error }}</p>
+                            {% endfor %}
+                            </div>
+
+                        {{ form.update_button(class="btn btn-primary btn-block") }}
+
+
+                    </form>
+                </div>
+</div>
+
+{%  endblock %}

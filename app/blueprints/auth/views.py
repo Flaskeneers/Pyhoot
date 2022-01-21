@@ -1,9 +1,11 @@
 from flask import render_template, flash, redirect, url_for
-from flask_login import login_user, logout_user, login_required
+from flask_login import login_user, logout_user, login_required, current_user
+from werkzeug.security import generate_password_hash
 
 from . import bp_auth
-from .forms import SignupForm, LoginForm
+from .forms import SignupForm, LoginForm, UpdateForm
 from app.controllers.users import create_user, get_by_username, check_existing_users, verify_password
+from ...controllers import user_controller
 
 
 @bp_auth.route("/signup/", methods=['GET', 'POST'])
@@ -58,3 +60,20 @@ def login():
 def logout():
     logout_user()
     return redirect(url_for('guest.index'))
+
+
+@bp_auth.route('/update/', methods=['GET', 'POST'])
+@login_required
+def update():
+    form = UpdateForm()
+    email = form.email.data
+    new_password = form.new_password.data
+
+    if form.validate_on_submit():
+        user_controller.update_by_username(current_user.username, new_data={"email": email})
+        user_controller.update_by_username(current_user.username, new_data={"password": generate_password_hash
+                                                                            (new_password)})
+
+        return redirect(url_for('guest.index'))
+
+    return render_template("auth/update.html", form=form)
