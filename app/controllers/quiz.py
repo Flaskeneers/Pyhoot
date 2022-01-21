@@ -39,12 +39,16 @@ def delete_all(query: dict | None = None) -> int:
     return repo.delete_all(query)
 
 
-def add_question_to_quiz(question: repo.Question, quiz: repo.Quiz) -> None:
-    repo.add_question_to_quiz(question, quiz)
+def add_question_to_quiz(question_data: dict, quiz_id: str) -> None:
+    repo.add_question_to_quiz(question_data, quiz_id)
 
 
-def has_updated_question_in_quiz(question_id: str, quiz_id: str, new_data: dict) -> bool:
-    return repo.has_updated_question_in_quiz(question_id, quiz_id, new_data)
+def get_question_from_quiz(question_index: int, quiz_id: str) -> repo.Question:
+    return repo.get_question_from_quiz(question_index, quiz_id)
+
+
+def has_updated_question_in_quiz(question_index: int, quiz_id: str, new_data: dict) -> bool:
+    return repo.has_updated_question_in_quiz(question_index, quiz_id, new_data)
 
 
 def edit_question_in_quiz(question: repo.Question,
@@ -53,16 +57,19 @@ def edit_question_in_quiz(question: repo.Question,
     return repo.edit_question_in_quiz(question, quiz, new_data)
 
 
-def has_removed_question_from_quiz(question_id: str, quiz_id: str) -> bool:
-    return repo.has_removed_question_from_quiz(question_id, quiz_id)
+def has_removed_question_from_quiz(question_index: int, quiz_id: str) -> bool:
+    return repo.has_removed_question_from_quiz(question_index, quiz_id)
+
+# def has_removed_question_from_quiz(question_id: str, quiz_id: str) -> bool:
+#     return repo.has_removed_question_from_quiz(question_id, quiz_id)
 
 
 def remove_question_from_quiz(question: repo.Question, quiz: repo.Quiz) -> None:
     repo.remove_question_from_quiz(question, quiz)
 
 
-def remove_all_questions(quiz: repo.Quiz) -> None:
-    repo.remove_all_questions(quiz)
+def remove_all_questions_in_quiz(quiz_id: str) -> None:
+    repo.remove_all_questions_in_quiz(quiz_id)
 
 
 # region User-Quiz

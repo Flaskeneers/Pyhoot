@@ -1,9 +1,7 @@
 from bson import ObjectId
 
-from app.persistence.models.question import Question
 from app.persistence.models.quiz import Quiz
 from app.persistence.models.user import User
-from app.persistence.repository import question_repo
 from app.persistence.repository import user_repo
 from app.shared.resultlist import ResultList
 
@@ -31,7 +29,7 @@ def update_by_id(_id: str, new_data: dict) -> None:
 
 def delete_by_id(_id: str) -> None:
     quiz = get_by_id(_id)
-    remove_all_questions(quiz)
+    remove_all_questions_in_quiz(quiz)
     remove_quiz_from_user(quiz.id, quiz.created_by)
     quiz.delete()
 
@@ -46,82 +44,79 @@ def delete_all(query: dict | None = None) -> int:
 
 # region Quiz-Question
 
-def add_question_to_quiz(question: Question, quiz: Quiz) -> None:
-    if not quiz.get("questions", None):
+# def add_question_to_quiz(question: Question, quiz: Quiz) -> None:
+def add_question_to_quiz(question_data: dict, quiz_id: str) -> None:
+    quiz = get_by_id(quiz_id)
+
+    if not has_questions(quiz):
         quiz.questions = []
 
-    if not has_question(question.id, quiz):
-        quiz.questions.append(question.__dict__)
-        quiz.save()
+    quiz.questions.append(question_data)
+    quiz.save()
 
 
-def has_updated_question_in_quiz(question_id: str, quiz_id: str, new_data: dict) -> bool:
-    question = question_repo.get_by_id(question_id)
+def get_question_from_quiz(question_index: int, quiz_id: str) -> dict | None:
+    quiz = get_by_id(quiz_id)
+    if not quiz or not has_questions(quiz) or not has_question(question_index, quiz):
+        return None
+
+    return quiz.questions[question_index]
+
+
+def has_updated_question_in_quiz(question_index: str, quiz_id: str, new_data: dict) -> bool:
     quiz = get_by_id(quiz_id)
 
-    if not question or not quiz:
+    if not quiz or not has_questions(quiz) or not has_question(question_index, quiz):
         return False
 
-    edit_question_in_quiz(question, quiz, new_data)
+    edit_question_in_quiz(question_index, quiz, new_data)
     return True
 
 
-def edit_question_in_quiz(question: Question,
-                          quiz: Quiz,
-                          new_data: dict) -> None:
-    if not has_questions(quiz):
-        return
-
-    for index, question_dict in enumerate(quiz.questions):
-        if question_dict["_id"] == question._id:
-            question_repo.update_by_id(question.id, new_data)
-
-            quiz.questions[index].update(new_data)
-            quiz.save()
-            return
+def edit_question_in_quiz(question_index: int, quiz: Quiz, new_data: dict) -> None:
+    quiz.questions = [question if index != question_index else new_data
+                      for index, question in enumerate(quiz.questions)]
+    quiz.save()
 
 
-def has_removed_question_from_quiz(question_id: str, quiz_id: str) -> bool:
-    question = question_repo.get_by_id(question_id)
+def has_removed_question_from_quiz(question_index: int, quiz_id: str) -> bool:
     quiz = get_by_id(quiz_id)
 
-    if not question or not quiz:
+    if not quiz or not has_questions(quiz) or not has_question(question_index, quiz):
         return False
 
-    remove_question_from_quiz(question, quiz)
+    remove_question_from_quiz(question_index, quiz)
     return True
 
 
-def remove_question_from_quiz(question: Question, quiz: Quiz) -> None:
-    if not has_questions(quiz):
+def remove_question_from_quiz(question_index: int, quiz: Quiz) -> None:
+    quiz.questions = [question for index, question in enumerate(quiz.questions)
+                      if index != question_index]
+
+    if quiz.questions == []:
+        del quiz.questions
+
+    quiz.save()
+
+
+def remove_all_questions_in_quiz(quiz_id: str) -> None:
+    quiz = get_by_id(quiz_id)
+    if not quiz or not has_questions(quiz):
         return
 
-    for index, question_dict in enumerate(quiz.questions):
-        if question_dict["_id"] == question._id:
-            question_repo.delete_by_id(question._id)
-
-            quiz.questions.pop(index)
-            if is_questions_empty(quiz.questions):
-                del quiz.questions
-
-            quiz.save()
-            return
+    del quiz.questions
+    quiz.save()
 
 
-def remove_all_questions(quiz: Quiz) -> None:
-    if not has_questions(quiz):
-        return
-
-    for question_dict in quiz.questions:
-        question = question_repo.get_by_id(question_dict["_id"])
-        remove_question_from_quiz(question, quiz)
+def has_question(question_index: int, quiz: Quiz) -> bool:
+    return quiz.questions is not None and question_index < len(quiz.questions)
 
 
-def has_question(question_id: str, quiz: Quiz) -> bool:
-    for question in quiz.questions:
-        if question["_id"] == question_id:
-            return True
-    return False
+# def has_question(question_id: str, quiz: Quiz) -> bool:
+#     for question in quiz.questions:
+#         if question["_id"] == question_id:
+#             return True
+#     return False
 
 
 def has_questions(quiz: Quiz) -> bool:
@@ -149,10 +144,6 @@ def delete_all_quizzes_by_username(username: str) -> int:
         return 0
 
     for quiz in quizzes:
-        if has_questions(quiz):
-            for question_dict in quiz.questions:
-                question_repo.delete_by_id(question_dict["_id"])
-
         remove_quiz_from_user(quiz.id, username)
 
     return delete_all(dict(created_by=username))
