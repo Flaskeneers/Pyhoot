@@ -6,9 +6,11 @@
         <div class="card login-form">
             <card class="card-body">
                 <h1 class="card-title text-center">LOGIN</h1>
+
                 <div class="card-text">
                     <form method="POST" novalidate>
                         {{ form.hidden_tag() }}
+
                         <div class="form-group">
                         {{ form.username.label(class="form-label") }} {{ form.username (class="form-control form-control-sm",
                                                                                             id="UsernameInput") }}
@@ -24,7 +26,7 @@
                                 <p style="color: red">{{ error }}</p>
                         {% endfor %}
 
-                    <a href="#" style="float:right; font-size: 12px;">Forgot Password?</a>
+                            <a href="#" style="float:right; font-size: 12px;">Forgot Password?</a>
                         </div>
 
 
