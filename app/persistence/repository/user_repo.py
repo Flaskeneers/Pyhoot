@@ -29,6 +29,11 @@ def get_by_username(username: str):
     return ResultList(User(i) for i in User.collection.find(dict(username=username))).first_or_none()
 
 
+def update_by_username(username, new_data):
+    user = get_by_username(username)
+    user.update_with(new_data)
+
+
 def check_existing_users(username: str, email: str) -> bool:
     """ Returns True if Email or username doesn't exist in the database"""
 

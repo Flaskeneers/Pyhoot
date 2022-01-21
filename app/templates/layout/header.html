@@ -9,6 +9,7 @@
             {% if current_user.is_authenticated %}
                 <a href={{ url_for("user.view_profile") }}>profile</a>
                 <a href={{ url_for("auth.logout") }}>logout</a>
+                <a href={{ url_for("auth.update") }}>Update</a>
             {% else %}
                 <a href={{ url_for("auth.signup") }}>Sign Up</a>
                 <a href={{ url_for("auth.login") }}>Login</a>
