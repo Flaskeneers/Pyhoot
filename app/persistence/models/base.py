@@ -48,6 +48,11 @@ class Document(dict, ABC):
     def delete_field(self, field: str) -> None:
         self.collection.update_one({"_id": self._id}, {"$unset": {field: ""}})
 
+    def to_dict(self) -> dict:
+        data = {k: v for (k, v) in self.__dict__.items() if k != "_id"}
+        data["id"] = self.__dict__["_id"]
+        return data
+
     @property
     def id(self) -> str:
         return str(self._id)
