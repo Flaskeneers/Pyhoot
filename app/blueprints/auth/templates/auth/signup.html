@@ -12,7 +12,7 @@
 
                             {{ form.hidden_tag() }}
                             <div class="form-group">
-                            {{ form.email.label(class="form-label") }} {{ form.username (class="form-control form-control-sm",
+                            {{ form.email.label(class="form-label") }} {{ form.email (class="form-control form-control-sm",
                                                                                             id="EmailInput") }}
                             {% for error in form.email.errors %}
                                 <p style="color: red">{{ error }}</p>
@@ -36,7 +36,7 @@
                             </div>
 
                             <div class="form-group">
-                            {{ form.repeat_pass.label (class="form-label")}} {{ form.password (class="form-control form-control-sm",
+                            {{ form.repeat_pass.label (class="form-label")}} {{ form.repeat_pass (class="form-control form-control-sm",
                                                                                             id="PasswordInput") }}
                             {% for error in form.repeat_pass.errors %}
                                     <p style="color: red">{{ error }}</p>

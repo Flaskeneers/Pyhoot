@@ -21,3 +21,9 @@ class LoginForm(FlaskForm):
     password = PasswordField('Password: ', validators=[InputRequired()])
 
     login_button = SubmitField('Login')
+
+class EditUser(FlaskForm):
+
+    email = StringField('E-mail: ', validators=[DataRequired(),Email()])
+    old_password:   PasswordField()
+    new_password:   PasswordField('New Password: ', validators=[DataRequired(), Length(3, 30)])
