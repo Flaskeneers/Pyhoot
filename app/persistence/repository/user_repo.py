@@ -1,5 +1,4 @@
-from bson import ObjectId
-import uuid
+
 from werkzeug.security import generate_password_hash, check_password_hash
 
 from app.persistence.models.user import User
@@ -19,7 +18,6 @@ def create_user(email: str, username: str, password: str) -> [list]:
     if check_existing_users(username, email):
         user = User(data)
         user.save()
-        print(f'Created user {username}')
         return user
 
 
@@ -29,14 +27,6 @@ def get_all_users():
 
 def get_by_username(username: str):
     return ResultList(User(i) for i in User.collection.find(dict(username=username))).first_or_none()
-
-
-def delete_user(username):
-    pass
-
-
-def update_user(username, update):
-    pass
 
 
 def check_existing_users(username: str, email: str) -> bool:
@@ -52,12 +42,10 @@ def check_existing_users(username: str, email: str) -> bool:
     return True
 
 
-def verify_password(username: str, password: str) -> bool:
+def verify_password(password: str, password_hash: str) -> bool:
     """ Compares entered credentials with credentials in DB."""
 
-    hashed = User.collection.find_one({'username': username},
-                                      {'password': 1, '_id': False}).get('password')
-    return check_password_hash(hashed, password)
+    return check_password_hash(password, password_hash)
 
 
 

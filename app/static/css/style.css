@@ -1,29 +1,94 @@
+html,
 body {
-    background: #202020;
+    height: 100%;
+    background: #202020 !important;
+    font-family: "Fira", sans-serif;
     color: #dcddde;
     /* Highlight - text = 7f6df2 */
     /* text-muted = #999 */
 }
+
+.container{
+    height: 75%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #0d6efd;
+}
+
+form {
+    padding-top: 10px;
+    font-size: 14px;
+    margin-top: 30px;
+     width:100%;
+  display:flex;
+  flex-direction: column;
+}
+.signup-form{
+    width: 760px;
+    height: 540px;
+    margin: 20px;
+    background: #2c2c2c !important;
+    border-radius: 20px !important;
+}
+.login-form{
+    width: 760px;
+    height: 450px;
+    margin: 20px;
+    background: #2c2c2c !important;
+    border-radius: 20px !important;
+}
+
+#UsernameInput, #PasswordInput, #EmailInput{
+    background: #2c2c2c !important;
+    border: 2px solid #454545;
+    border-radius: 10px;
+    margin-bottom: 25px;
+    color: #999;
+}
+
+#UsernameInput:focus, #PasswordInput:focus {
+    outline: none;
+    border: none;
+    background: #2c2c2c;
+    margin-bottom: 25px;
+    color: #999;
+}
+.card title{
+    font-weight: 900;
+    padding-top: 20px;
+}
+
+.btn{
+    transform: translateY(10px) !important;
+    font-size: 14px;
+    border-radius: 10px;
+
+}
+.signup{
+    text-align: center;
+    padding-top: 25px;
+
+}
+
 h1 {
     color: #7f6df2;
+    font-weight: 900;
 }
 
-.navbar {
-    background: #202020 !important;
-}
-
-.navbar-brand{
-    color: #483699 !important;
-}
-.nav-link {
-    color: #7f6df2 !important;
-}
-.nav-link
-.btn-secondary {
-    background-color: rgb(72, 54, 153) !important;
+.btn-primary {
+    display: block;
+    padding: 0px 20px;
+    height: 40px;
+    background-color: #7f6df2;
+    border-right: 1px solid black;
+    border-bottom: 1px solid black;
+    text-align: center;
+    line-height: 40px;
+    flex-grow:1;
 
 }
-.btn-secondary:hover {
+.btn-primary:hover {
     background-color: #483699 !important;
 
 }
@@ -31,4 +96,58 @@ h1 {
 /* Toast notifications */
 .toast-overlay {
     z-index: 999999 !important;
+}
+
+/* HEADER TEMPLATE */
+.primary_header{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Fira, sans-serif;
+}
+
+.nav_container{
+    max-width: 1280px;
+    margin: 0 auto;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.nav{
+position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 99;
+    padding: 16px 32px;
+    border-bottom: 3px solid #6f42c1;
+}
+
+.nav_header{
+    font-size: 28px;
+    font-weight: 900;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.menu {
+    display: flex;
+    flex: 1 1;
+    justify-content: flex-end;
+    margin: 0 -16px;
+}
+
+.menu a {
+    color: #999;
+    margin: 0 16px;
+    text-transform: uppercase;
+    font-weight: 600;
+    text-decoration: none;
+    padding: 8px 16px;
+    border-radius: 99px;
+}
+.menu a:hover{
+    background-color: #7f6df2;
 }
