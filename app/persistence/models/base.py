@@ -28,6 +28,9 @@ class Document(dict, ABC):
         attributes = "\n".join(f"\t{k}: {v}" for k, v in self.__dict__.items())
         return f"{self.__class__.__name__}:\n{attributes}"
 
+    def __bool__(self) -> bool:
+        return self.__dict__ != {}
+
     def save(self) -> None:
         if not self._id:
             del self.__dict__["_id"]
@@ -44,6 +47,11 @@ class Document(dict, ABC):
 
     def delete_field(self, field: str) -> None:
         self.collection.update_one({"_id": self._id}, {"$unset": {field: ""}})
+
+    def to_dict(self) -> dict:
+        data = {k: v for (k, v) in self.__dict__.items() if k != "_id"}
+        data["id"] = self.__dict__["_id"]
+        return data
 
     @property
     def id(self) -> str:

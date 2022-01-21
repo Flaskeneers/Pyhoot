@@ -20,7 +20,7 @@
         </tbody>
     </table>
     <ul>
-        <li><a href="{{ url_for('user.edit_quiz_get', quiz_id=quiz.id) }}">Update</a></li>
+        <li><a href="{{ url_for('user.edit_quiz_get', quiz_id=quiz.id) }}">Edit Quiz</a></li>
         <li><a href="{{ url_for('user.delete_all_questions_in_quiz', quiz_id=quiz.id) }}">Delete All Questions</a></li>
         <li><a href="{{ url_for('user.delete_quiz', quiz_id=quiz.id) }}">Delete Quiz</a></li>
     </ul>
@@ -32,9 +32,9 @@
             <hr>
             <p>{{ question.description }}</p>
             <p>
-                <a href="{{ url_for('user.detail_question_get', question_id=question._id) }}">Detail</a>&nbsp;
-                <a href="{{ url_for('user.edit_question_in_quiz_get', question_id=question._id, quiz_id=quiz.id) }}">Edit</a>&nbsp;
-                <a href="{{ url_for('user.delete_question_in_quiz', question_id=question._id, quiz_id=quiz.id) }}">Delete</a>
+                <a href="{{ url_for('user.detail_question_get', question_index=loop.index0, quiz_id=quiz.id) }}">Detail</a>&nbsp;
+                <a href="{{ url_for('user.edit_question_in_quiz_get', question_index=loop.index0, quiz_id=quiz.id) }}">Edit</a>&nbsp;
+                <a href="{{ url_for('user.delete_question_in_quiz', question_index=loop.index0, quiz_id=quiz.id) }}">Delete</a>
             </p>
             <hr>
         {% endfor %}

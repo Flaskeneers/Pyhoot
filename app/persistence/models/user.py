@@ -18,4 +18,3 @@ class User(Document):
 
     def get_id(self):
         return self.username
-
