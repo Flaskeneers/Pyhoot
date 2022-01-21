@@ -3,16 +3,11 @@ import wtforms as wtf
 from wtforms.validators import DataRequired
 
 
-class AnswerForm(wtf.Form):
-    text = wtf.StringField("", validators=[DataRequired()])
-
-
 # TODO: change DataRequired() to InputRequired()
 class BaseQuestionForm(FlaskForm):
-    description = wtf.StringField("Description",
-                                  validators=[DataRequired()])
-    correct_answer = wtf.FormField(AnswerForm)
-    wrong_answers = wtf.FieldList(wtf.FormField(AnswerForm),
+    description = wtf.StringField("Description", validators=[DataRequired()])
+    correct_answer = wtf.StringField("Correct Answer", validators=[DataRequired()])
+    wrong_answers = wtf.FieldList(wtf.StringField(validators=[DataRequired()]),
                                   min_entries=3, max_entries=3)
 
 
