@@ -10,7 +10,7 @@ from app.controllers import quiz as quiz_controller
 @bp_user.get("/quizzes/<quiz_id>/questions")
 @login_required
 def create_question_get(quiz_id: str):
-    if not quiz_controller.get_by_id(quiz_id):
+    if not quiz_controller.get_quiz_by_id(quiz_id):
         flash("Quiz not found.", category="error")
         return redirect(url_for(".view_profile"))
 
@@ -22,7 +22,7 @@ def create_question_get(quiz_id: str):
 @bp_user.post("/quizzes/<quiz_id>/questions")
 @login_required
 def create_question_post(quiz_id: str):
-    if not quiz_controller.get_by_id(quiz_id):
+    if not quiz_controller.get_quiz_by_id(quiz_id):
         flash("Quiz not found.", category="error")
         return redirect(url_for(".view_profile"))
 
@@ -99,17 +99,9 @@ def delete_question_in_quiz(quiz_id: str, question_index: int):
 @bp_user.get("/quizzes/<quiz_id>/questions/delete")
 @login_required
 def delete_all_questions_in_quiz(quiz_id: str):
-    if not quiz_controller.get_by_id(quiz_id):
+    if not quiz_controller.get_quiz_by_id(quiz_id):
         flash("Quiz not found.", category="error")
     else:
         quiz_controller.remove_all_questions_in_quiz(quiz_id)
         flash("Quiz questions deleted successfully.", category="success")
     return redirect(url_for(".detail_quiz_get", quiz_id=quiz_id))
-
-
-@bp_user.get("/questions/delete/")
-@login_required
-def delete_all_questions_in_database():
-    quiz_controller.delete_all()
-    flash("All questions deleted.", category="success")
-    return redirect(url_for(".view_profile"))

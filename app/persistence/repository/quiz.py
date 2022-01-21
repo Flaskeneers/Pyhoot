@@ -14,26 +14,26 @@ def create(**kwargs) -> Quiz:
     return quiz
 
 
-def get_by_id(_id: str) -> Quiz | None:
+def get_quiz_by_id(_id: str) -> Quiz | None:
     return Quiz(Quiz.collection.find_one(dict(_id=ObjectId(_id))))
 
 
-def get_all() -> list[Quiz] | None:
+def get_all_quizzes() -> list[Quiz] | None:
     return ResultList(Quiz(item) for item in Quiz.collection.find())
 
 
-def update_by_id(_id: str, new_data: dict) -> None:
-    quiz = get_by_id(_id)
+def update_quiz_by_id(_id: str, new_data: dict) -> None:
+    quiz = get_quiz_by_id(_id)
     quiz.update_with(new_data)
 
 
-def delete_by_id(_id: str) -> None:
-    quiz = get_by_id(_id)
+def delete_quiz_by_id(_id: str) -> None:
+    quiz = get_quiz_by_id(_id)
     remove_quiz_from_user(quiz.id, quiz.created_by)
     quiz.delete()
 
 
-def delete_all(query: dict | None = None) -> int:
+def delete_all_quizzes_by(query: dict | None = None) -> int:
     result = Quiz.collection.delete_many(query if query else {})
     return result.deleted_count
 
@@ -44,7 +44,7 @@ def delete_all(query: dict | None = None) -> int:
 # region Quiz-Question
 
 def add_question_to_quiz(question_data: dict, quiz_id: str) -> None:
-    quiz = get_by_id(quiz_id)
+    quiz = get_quiz_by_id(quiz_id)
 
     if not has_questions(quiz):
         quiz.questions = []
@@ -54,7 +54,7 @@ def add_question_to_quiz(question_data: dict, quiz_id: str) -> None:
 
 
 def get_question_from_quiz(question_index: int, quiz_id: str) -> dict | None:
-    quiz = get_by_id(quiz_id)
+    quiz = get_quiz_by_id(quiz_id)
     if not quiz or not has_questions(quiz) or not has_question(question_index, quiz):
         return None
 
@@ -62,7 +62,7 @@ def get_question_from_quiz(question_index: int, quiz_id: str) -> dict | None:
 
 
 def has_updated_question_in_quiz(question_index: int, quiz_id: str, new_data: dict) -> bool:
-    quiz = get_by_id(quiz_id)
+    quiz = get_quiz_by_id(quiz_id)
 
     if not quiz or not has_questions(quiz) or not has_question(question_index, quiz):
         return False
@@ -78,7 +78,7 @@ def edit_question_in_quiz(question_index: int, quiz: Quiz, new_data: dict) -> No
 
 
 def has_removed_question_from_quiz(question_index: int, quiz_id: str) -> bool:
-    quiz = get_by_id(quiz_id)
+    quiz = get_quiz_by_id(quiz_id)
 
     if not quiz or not has_questions(quiz) or not has_question(question_index, quiz):
         return False
@@ -98,7 +98,7 @@ def remove_question_from_quiz(question_index: int, quiz: Quiz) -> None:
 
 
 def remove_all_questions_in_quiz(quiz_id: str) -> None:
-    quiz = get_by_id(quiz_id)
+    quiz = get_quiz_by_id(quiz_id)
     if not quiz or not has_questions(quiz):
         return
 
@@ -121,7 +121,7 @@ def is_questions_empty(questions: list) -> bool:
 # endregion Quiz-Question
 
 
-# region User-Quiz
+# region Quiz-User
 
 
 def get_all_quizzes_by_username(username: str) -> list[Quiz] | None:
@@ -137,7 +137,7 @@ def delete_all_quizzes_by_username(username: str) -> int:
     for quiz in quizzes:
         remove_quiz_from_user(quiz.id, username)
 
-    return delete_all(dict(created_by=username))
+    return delete_all_quizzes_by(dict(created_by=username))
 
 
 def has_quiz(quiz_id: str, user: User) -> bool:
@@ -154,7 +154,7 @@ def add_quiz_to_user(quiz_id: str, username: str) -> None:
     if not user:
         return None
 
-    if not hasattr(user, "quizzes"):
+    if not has_quizzes(user):
         user.quizzes = []
 
     if has_quiz(quiz_id, user):
@@ -178,4 +178,4 @@ def remove_quiz_from_user(quiz_id: str, username: str) -> None:
 
             user.save()
 
-# endregion User-Quiz
+# endregion Quiz-User

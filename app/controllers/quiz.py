@@ -2,6 +2,8 @@ from app.persistence.repository import quiz as quiz_repo
 from app.shared import schemas
 
 
+# region Quiz
+
 def create(created_by: str,
            title: str,
            questions: list[dict] = None
@@ -16,27 +18,32 @@ def create(created_by: str,
     return schemas.Quiz(**quiz.to_dict())
 
 
-def get_by_id(quiz_id: str) -> schemas.Quiz | None:
-    quiz: quiz_repo.Quiz = quiz_repo.get_by_id(quiz_id)
+def get_quiz_by_id(quiz_id: str) -> schemas.Quiz | None:
+    quiz: quiz_repo.Quiz = quiz_repo.get_quiz_by_id(quiz_id)
     return schemas.Quiz(**quiz.to_dict()) if quiz else None
 
 
-def get_all() -> list[schemas.Quiz] | None:
-    quizzes: list[quiz_repo.Quiz] = quiz_repo.get_all()
+def get_all_quizzes() -> list[schemas.Quiz] | None:
+    quizzes: list[quiz_repo.Quiz] = quiz_repo.get_all_quizzes()
     return [schemas.Quiz(**quiz.to_dict()) for quiz in quizzes] if quizzes else None
 
 
-def update_by_id(quiz_id: str, new_data: dict) -> None:
-    quiz_repo.update_by_id(quiz_id, new_data)
+def update_quiz_by_id(quiz_id: str, new_data: dict) -> None:
+    quiz_repo.update_quiz_by_id(quiz_id, new_data)
 
 
-def delete_by_id(quiz_id: str) -> None:
-    quiz_repo.delete_by_id(quiz_id)
+def delete_quiz_by_id(quiz_id: str) -> None:
+    quiz_repo.delete_quiz_by_id(quiz_id)
 
 
-def delete_all(query: dict | None = None) -> int:
-    return quiz_repo.delete_all(query)
+def delete_all_quizzes_by(query: dict | None = None) -> int:
+    return quiz_repo.delete_all_quizzes_by(query)
 
+
+# endregion Quiz
+
+
+# region Quiz-Question
 
 def add_question_to_quiz(question_data: dict, quiz_id: str) -> None:
     quiz_repo.add_question_to_quiz(question_data, quiz_id)
@@ -59,7 +66,10 @@ def remove_all_questions_in_quiz(quiz_id: str) -> None:
     quiz_repo.remove_all_questions_in_quiz(quiz_id)
 
 
-# region User-Quiz
+# endregion Quiz-Question
+
+
+# region Quiz-User
 
 
 def get_all_quizzes_by_username(username: str) -> list[schemas.Quiz] | None:
@@ -78,4 +88,4 @@ def add_quiz_to_user(quiz_id: str, username: str) -> None:
 def remove_quiz_from_user(quiz_id: str, username: str) -> None:
     return quiz_repo.remove_quiz_from_user(quiz_id, username)
 
-# endregion User-Quiz
+# endregion Quiz-User

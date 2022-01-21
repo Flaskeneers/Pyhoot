@@ -29,7 +29,7 @@ def create_quiz_post():
 @bp_user.get("/quizzes/<quiz_id>")
 @login_required
 def detail_quiz_get(quiz_id: str):
-    quiz = quiz_controller.get_by_id(quiz_id)
+    quiz = quiz_controller.get_quiz_by_id(quiz_id)
     if not quiz:
         flash("Question not found.", category="error")
         return redirect(url_for(".view_profile"))
@@ -40,7 +40,7 @@ def detail_quiz_get(quiz_id: str):
 @bp_user.get("/quizzes/<quiz_id>/edit")
 @login_required
 def edit_quiz_get(quiz_id: str):
-    quiz = quiz_controller.get_by_id(quiz_id)
+    quiz = quiz_controller.get_quiz_by_id(quiz_id)
     form = EditQuizForm(obj=quiz)
     return render_template("user/quiz/edit.html",
                            form=form)
@@ -51,10 +51,10 @@ def edit_quiz_get(quiz_id: str):
 def edit_quiz_post(quiz_id: str):
     form = EditQuizForm()
     if form.validate_on_submit():
-        if not quiz_controller.get_by_id(quiz_id):
+        if not quiz_controller.get_quiz_by_id(quiz_id):
             flash("Quiz not found.", category="error")
         else:
-            quiz_controller.update_by_id(quiz_id, new_data=dict(title=form.title.data))
+            quiz_controller.update_quiz_by_id(quiz_id, new_data=dict(title=form.title.data))
             flash("Quiz updated successfully.", category="success")
             return redirect(url_for(".detail_quiz_get", quiz_id=quiz_id))
 
@@ -67,10 +67,10 @@ def edit_quiz_post(quiz_id: str):
 @bp_user.get("/quizzes/<quiz_id>/delete")
 @login_required
 def delete_quiz(quiz_id: str):
-    if not quiz_controller.get_by_id(quiz_id):
+    if not quiz_controller.get_quiz_by_id(quiz_id):
         flash("Quiz not found.", category="error")
     else:
-        quiz_controller.delete_by_id(quiz_id)
+        quiz_controller.delete_quiz_by_id(quiz_id)
         flash("Quiz deleted successfully.", category="success")
     return redirect(url_for(".view_profile"))
 
@@ -80,12 +80,4 @@ def delete_quiz(quiz_id: str):
 def delete_my_quizzes():
     deleted_quizzes = quiz_controller.delete_all_quizzes_by_username(current_user.username)
     flash(f"{deleted_quizzes} quizzes deleted from your account.", category="success")
-    return redirect(url_for(".view_profile"))
-
-
-@bp_user.get("/quizzes/delete/all")
-@login_required
-def delete_all_quizzes_in_database():
-    quiz_controller.delete_all()
-    flash("All quizzes deleted.", category="success")
     return redirect(url_for(".view_profile"))
