@@ -18,8 +18,8 @@ def get_by_id(_id: str) -> Quiz | None:
     return Quiz(Quiz.collection.find_one(dict(_id=ObjectId(_id))))
 
 
-def get_all() -> list[Quiz]:
-    return ResultList(Quiz(item) for item in Quiz.find())
+def get_all() -> list[Quiz] | None:
+    return ResultList(Quiz(item) for item in Quiz.collection.find())
 
 
 def update_by_id(_id: str, new_data: dict) -> None:
@@ -29,7 +29,6 @@ def update_by_id(_id: str, new_data: dict) -> None:
 
 def delete_by_id(_id: str) -> None:
     quiz = get_by_id(_id)
-    remove_all_questions_in_quiz(quiz)
     remove_quiz_from_user(quiz.id, quiz.created_by)
     quiz.delete()
 
@@ -44,7 +43,6 @@ def delete_all(query: dict | None = None) -> int:
 
 # region Quiz-Question
 
-# def add_question_to_quiz(question: Question, quiz: Quiz) -> None:
 def add_question_to_quiz(question_data: dict, quiz_id: str) -> None:
     quiz = get_by_id(quiz_id)
 
@@ -63,7 +61,7 @@ def get_question_from_quiz(question_index: int, quiz_id: str) -> dict | None:
     return quiz.questions[question_index]
 
 
-def has_updated_question_in_quiz(question_index: str, quiz_id: str, new_data: dict) -> bool:
+def has_updated_question_in_quiz(question_index: int, quiz_id: str, new_data: dict) -> bool:
     quiz = get_by_id(quiz_id)
 
     if not quiz or not has_questions(quiz) or not has_question(question_index, quiz):
@@ -112,13 +110,6 @@ def has_question(question_index: int, quiz: Quiz) -> bool:
     return quiz.questions is not None and question_index < len(quiz.questions)
 
 
-# def has_question(question_id: str, quiz: Quiz) -> bool:
-#     for question in quiz.questions:
-#         if question["_id"] == question_id:
-#             return True
-#     return False
-
-
 def has_questions(quiz: Quiz) -> bool:
     return hasattr(quiz, "questions")
 
@@ -133,7 +124,7 @@ def is_questions_empty(questions: list) -> bool:
 # region User-Quiz
 
 
-def get_all_quizzes_by_username(username: str) -> list[Quiz]:
+def get_all_quizzes_by_username(username: str) -> list[Quiz] | None:
     return ResultList(Quiz(item) for item in Quiz.collection.find(dict(created_by=username)))
 
 

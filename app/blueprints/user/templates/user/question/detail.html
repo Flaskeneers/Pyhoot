@@ -8,7 +8,6 @@
     <table>
         <thead>
         <tr>
-            <th>ID</th>
             <th>Description</th>
             <th>Correct Answer</th>
             {% for wrong_answer in question.wrong_answers %}
@@ -18,7 +17,6 @@
         </thead>
         <tbody>
         <tr>
-            <td>{{ question.id }}</td>
             <td>{{ question.description }}</td>
             <td>{{ question.correct_answer }}</td>
             {% for wrong_answer in question.wrong_answers %}
