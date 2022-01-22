@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title> Quiz - Pyhoot</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/questions.css') }}">
+
+</head>
+<body>
+    <div class="container">
+        <div id="question-container" class="hide">
+            <div id="question">Question</div>
+            <div id="answer-buttons" class="btn-grid">
+                <button class="btn">Answer 1</button>
+                <button class="btn">Answer 2</button>
+                <button class="btn">Answer 3</button>
+                <button class="btn">Answer 4</button>
+            </div>
+        </div>
+
+        <div class="controls">
+            <button id="start-btn" class="start-btn btn">Start</button>
+            <button id="next-btn" class="next-btn btn hide">Next Question</button>
+        </div>
+    </div>
+
+
+<script>
+
+    // JAVASCRIPT - Adds functionality to the board, trying to make it more dynamic. //
+    const nextButton = document.getElementById('next-btn')
+    const startButton = document.getElementById('start-btn')
+    const questionContainer = document.getElementById('question-container')
+    const questionText = document.getElementById('question')
+    const answerButtons = document.getElementById('answer-buttons')
+    let shuffler, questionIndex
+
+    startButton.addEventListener('click', startGame)
+        nextButton.addEventListener('click', () => {
+            questionIndex++
+            getNextQuestion()
+        })
+
+// randomize the question-order and displays the quiz.
+function startGame() {
+    startButton.classList.add('hide')
+    shuffler = tempQuestions.sort(()=>Math.random() - .5)
+    questionIndex = 0
+    questionContainer.classList.remove('hide')
+
+    getNextQuestion()
+}
+
+// Utility function to save time. Clears all classes from base, and removes previous answers, also hides the Next button.
+function clearForm(){
+        removeClass(document.body)
+        nextButton.classList.add('hide')
+        while(answerButtons.firstChild){
+            answerButtons.removeChild(answerButtons.firstChild)
+        }
+}
+
+// removes earlier buttons, and collect next question from the database
+function getNextQuestion() {
+            clearForm()
+    showQuestion(shuffler[questionIndex])
+}
+
+// Displays the question and creates a button for each Answer
+function showQuestion(question){
+    questionText.innerText = question.question
+
+    question.answer.forEach(answer => {
+        const button = document.createElement('button')
+        button.innerText = answer.text
+        button.classList.add('btn')
+
+        if (answer.correct) {
+            button.dataset.correct = answer.correct
+        }
+        button.addEventListener('click', selectAnswer)
+        answerButtons.appendChild(button)
+    })
+}
+
+// checks all answers in question, if correct, adds a correct-tag to Body, and to the answer-div
+function selectAnswer(ans_btn) {
+    const selected = ans_btn.target
+    const correct = selected.dataset.correct
+    addClass(document.body, correct)
+    Array.from(answerButtons.children).forEach(button => {
+        addClass(button, button.dataset.correct)
+    })
+    if(shuffler.length > questionIndex +1){
+        nextButton.classList.remove('hide')
+    } else {
+        startButton.innerText = 'Restart Game'
+        startButton.classList.remove('hide')
+    }
+
+// Checks the database if the answer selected is correct, then adds the proper classList to it, for future reference.
+    function addClass(element, correct){
+        if (correct){
+            element.classList.add('correct')
+        } else {
+            element.classList.add('wrong')
+        }
+    }
+
+}
+
+// Removes the correct / false class from the div
+function removeClass(div){
+    div.classList.remove('correct')
+    div.classList.remove('wrong')
+}
+
+// Temporary list of questions for testing the form. Replace later with data from database
+const tempQuestions = [
+    {
+        question: "What is 2 + 2?",
+        answer: [
+            {text: "4", correct: true},
+            {text: "3", correct: false}
+
+        ]
+    },
+     {
+        question: "What is 7 x 2?",
+        answer: [
+            {text: "2", correct: false},
+            {text: "33", correct: false},
+            {text: "34", correct: false},
+            {text: "4", correct: false},
+            {text: "14", correct: true},
+            {text: "5", correct: false}
+
+        ]
+    },
+     {
+        question: "What is 2 + 3?",
+        answer: [
+            {text: "4", correct: false},
+            {text: "3", correct: false},
+            {text: "5", correct: true},
+
+        ]
+    }
+]
+
+</script>
+
+
+</body>
+</html>

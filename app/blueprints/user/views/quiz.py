@@ -81,3 +81,8 @@ def delete_my_quizzes():
     deleted_quizzes = quiz_controller.delete_all_quizzes_by_username(current_user.username)
     flash(f"{deleted_quizzes} quizzes deleted from your account.", category="success")
     return redirect(url_for(".view_profile"))
+
+
+@bp_user.route('/test')
+def test_quiz():
+    return render_template('user/quiz/quiz_game.html')
