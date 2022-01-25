@@ -9,7 +9,7 @@ def create(created_by: str,
            ) -> schemas.Quiz:
     data = dict(created_by=created_by, title=title)
 
-    quiz = quiz_repo.create(**data)
+    quiz: quiz_repo.Quiz = quiz_repo.create(**data)
     add_quiz_to_user(quiz.id, created_by)
     return schemas.Quiz(**quiz.to_dict())
 

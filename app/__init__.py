@@ -1,7 +1,7 @@
 from flask import Flask
 from flask_login import LoginManager
 
-
+from . import errors
 from app.config import ConfigType, configure
 
 login_manager = LoginManager()
@@ -13,6 +13,8 @@ def create_app(config_type: ConfigType = ConfigType.DEVELOPMENT) -> Flask:
     configure(_app, config_type)
     initialize_extensions(_app)
     register_blueprints(_app)
+
+    errors.register_error_handlers(_app)
 
     return _app
 

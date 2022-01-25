@@ -43,7 +43,7 @@ def login():
                 flash(user.email)
                 flash(user.username)
 
-                return redirect(url_for("user.view_profile"))
+                return redirect(url_for("user.view_profile", username=user.username))
 
             else:
                 flash('Invalid Credentials')
