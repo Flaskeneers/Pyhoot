@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% block title %}Play{% endblock %}
+{% block additional_css %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/game.css') }}">
+{% endblock %}
+
+{% block page_content %}
+
+    <!-- QUESTION WINDOW! -->
+
+    <div class="question_container" id="question_container">
+        <div id="questionField">{{ quiz[0].question }}</div>
+
+        {% for answer in quiz[0].answers %}
+            <div class="answer_box">{{ answer }}</div>
+        {% endfor %}
+        <button id="reveal_btn">Reveal Answer ...</button>
+    </div>
+
+
+    <!--REVEAL ANSWER -->
+    <div class="question_container hidden" id="reveal_container">
+        <div id="questionField">{{ quiz[0].question }}</div>
+
+        {% for answer in quiz[0].answers %}
+            <div class="reveal__answer_box">{{ answer }}</div>
+        {% endfor %}
+        <button id="next_btn">Next Question</button>
+    </div>
+
+{% endblock %}
+
+
+{% block scripts %}
+
+    <script type="text/javascript">
+
+        function toggle_container() {
+            question_screen.classList.toggle('hidden')
+            reveal_screen.classList.toggle('hidden')
+
+            answer[correct].style.backgroundColor = "DarkGreen";
+
+        }
+
+
+        const reveal_screen = document.querySelector("#reveal_container")
+        const question_screen = document.querySelector('#question_container');
+        const correct =  {{ quiz[0].correct_answer }}
+        const answer = document.querySelectorAll(".reveal__answer_box");
+
+
+        document.getElementById('reveal_btn').addEventListener("click", () => toggle_container())
+        document.getElementById('next_btn').addEventListener("click", () => toggle_container())
+
+    </script>
+
+{% endblock %}

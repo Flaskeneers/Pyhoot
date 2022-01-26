@@ -1,10 +1,12 @@
 from flask import Flask
 from flask_login import LoginManager
+from flask_socketio import SocketIO
 
 from . import errors
 from app.config import ConfigType, configure
 
 login_manager = LoginManager()
+socketio = SocketIO()
 
 
 def create_app(config_type: ConfigType = ConfigType.DEVELOPMENT) -> Flask:
@@ -26,6 +28,8 @@ def initialize_extensions(_app: Flask) -> None:
     def load_user(user_id):
         from app.persistence.models.user import User
         return User.find(username=user_id).first_or_none()
+
+    socketio.init_app(_app)
 
 
 def register_blueprints(_app: Flask) -> None:
