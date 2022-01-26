@@ -1,4 +1,4 @@
-from flask import render_template, url_for
+from flask import render_template
 from flask_login import login_required, current_user
 
 from .. import bp_user
@@ -11,16 +11,17 @@ dummyQuiz = [{
     "current_question": 0
 
 }, {
-       "quiz_id": "quizID",
-       "question": "What's the capital of Sweden?",
-       "answers": ["Gothenburg", "Stockholm", "Malmö", "Oslo"],
-       "correct_answer": "Stockholm",
-       "current_question": 1
-   }
+    "quiz_id": "quizID",
+    "question": "What's the capital of Sweden?",
+    "answers": ["Gothenburg", "Stockholm", "Malmö", "Oslo"],
+    "correct_answer": "Stockholm",
+    "current_question": 1
+}
 ]
 
-@ bp_user.route('/test')
-@ login_required
+
+@bp_user.route('/test')
+@login_required
 def hello_world():
     return render_template('user/chat.html', username=current_user.username)
 
