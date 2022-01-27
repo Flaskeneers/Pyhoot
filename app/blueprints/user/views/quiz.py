@@ -72,7 +72,7 @@ def delete_quiz(quiz_id: str):
     else:
         quiz_controller.delete_quiz_by_id(quiz_id)
         flash("Quiz deleted successfully.", category="success")
-    return redirect(url_for(".view_profile"))
+    return redirect(url_for(".view_profile", username=current_user.username))
 
 
 @bp_user.get("/quizzes/delete")
