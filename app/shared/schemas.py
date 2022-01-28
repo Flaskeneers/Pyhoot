@@ -105,7 +105,10 @@ class Game:
                     )
 
     def end_game_results_to_dict(self) -> dict:
-        return dict(quiz_title=self.quiz.title,
+        return dict(game_id=self.id,
+                    quiz_title=self.quiz.title,
+                    quiz_progress=f"{self.player.on_question_index + 1} / "
+                                  f"{self.quiz.questions_count}",
                     current_score=f"{self.player.score} / "
                                   f"{self.quiz.questions_count}",
                     has_finished=self.player.has_finished
