@@ -5,58 +5,68 @@
 {% block page_content %}
 
     <div class="container">
+
         <card class="profile_card">
-            <h1 class="profile_header"> {{ current_user.username }}</h1>
+            <h1 class="profile_header"> {{ current_user.username }} </h1>
+
             <div class="avatar">Avatar</div>
+
             <div class="profile_info">
                 <div class="text_container" id="profile_container">
                     <h3>Profile</h3>
 
                     <div class="profile_section">
-                        <h7>Username:</h7>
-                        <span>  {{ current_user.username }}</span>
+                        <span>Username:</span>
+                        <span>{{ current_user.username }}</span>
                     </div>
 
                     <div class="profile_section">
-                        <h7>Name:</h7>
-                        <span>  Charlie</span>
+                        <span>Name:</span>
+                        <span>Charlie</span>
                     </div>
 
                     <div class="profile_section">
-                        <h7>Country:</h7>
+                        <span>Country:</span>
                         <span>Sweden</span>
                     </div>
 
                     <div class="profile_section">
-                        <h7>Member since:</h7>
+                        <span>Member since:</span>
                         <span>Date</span>
                     </div>
-
-
                 </div>
-                <a href="{{ url_for("auth.update", username=current_user.username) }}"><button class="edit_profile_btn">Edit profile</button></a>
+
+                <a class="_btn" href="{{ url_for("auth.update", username=current_user.username) }}">Edit Profile</a>
+
             </div>
+
             <div class="my_quizzes">
+
                 <div class="text_container" id="quiz_container">
                     <h3>My Quizzes</h3>
-                    <p>"{{ quizzes.title }} - {{ quizzes.id }}</p></div>
-                <a href="{{ url_for("user.create_quiz_get") }}"><button class="create_quiz_btn">Create Quiz</button></a>
-            </div>
-            <div class="profile_highscores">
-                <div class="text_container" id="highscore_container">
-                    <h3>My Highscores</h3>
-                    <p>"Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque
-                        laudanti
-                        quo voluptas nulla pariatur?"</p>
 
+                    {% for quiz in quizzes %}
+                        <a href="{{ url_for("user.edit_quiz_get", quiz_id=quiz.id, username=current_user.username, quiz=quiz) }}">{{ quiz.title }}
+                            - {{ (quiz.questions|length) }} Questions</a> <br/><br/>
+                    {% endfor %}
 
                 </div>
-                <a href="{{ url_for("guest.leaderboard") }}"><button class="show_leaderboard_btn">Leaderboards</button></a>
+
+                <a class="_btn" href="{{ url_for("user.create_quiz_get") }}">Create Quiz</a>
 
             </div>
 
-        </card>
+            <div class="profile_highscores">
 
+                <div class="text_container" id="highscore_container">
+                    <h3>My Highscores</h3>
+                    <p>Adding Quiz - best score here in a later release...</p>
+                </div>
+
+                <a class="_btn" href="{{ url_for("guest.leaderboard") }}">Leaderboard</a>
+
+            </div>
+        </card>
     </div>
 
 

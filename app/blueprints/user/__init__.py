@@ -6,3 +6,4 @@ bp_user = Blueprint(name="user",
                     static_folder="static")
 
 from . import views
+from app import events

@@ -32,7 +32,9 @@ def create_question_post(quiz_id: str):
         quiz_controller.add_question_to_quiz(clean_data, quiz_id)
 
         flash("Question created successfully.", category="success")
-        return redirect(url_for(".detail_quiz_get", quiz_id=quiz_id))
+        return redirect(url_for(".detail_quiz_get",
+                                quiz_id=quiz_id))
+
     flash("Failed to create question.", category="error")
     return render_template("user/question/create.html",
                            form=form)
@@ -78,7 +80,8 @@ def edit_question_in_quiz_post(quiz_id: str, question_index: int):
             flash("Something went wrong when attempting to update a Question.", category="success")
         else:
             flash("Question edited successfully.", category="success")
-        return redirect(url_for(".detail_quiz_get", quiz_id=quiz_id))
+        return redirect(url_for(".detail_quiz_get",
+                                quiz_id=quiz_id))
     else:
         return render_template("user/question/edit.html",
                                form=form,
@@ -93,7 +96,8 @@ def delete_question_in_quiz(quiz_id: str, question_index: int):
         flash("Something went wrong when attempting to delete a Question.", category="error")
     else:
         flash("Question deleted successfully.", category="success")
-    return redirect(url_for(".detail_quiz_get", quiz_id=quiz_id))
+    return redirect(url_for(".detail_quiz_get",
+                            quiz_id=quiz_id))
 
 
 @bp_user.get("/quizzes/<quiz_id>/questions/delete")
@@ -104,4 +108,5 @@ def delete_all_questions_in_quiz(quiz_id: str):
     else:
         quiz_controller.remove_all_questions_in_quiz(quiz_id)
         flash("Quiz questions deleted successfully.", category="success")
-    return redirect(url_for(".detail_quiz_get", quiz_id=quiz_id))
+    return redirect(url_for(".detail_quiz_get",
+                            quiz_id=quiz_id))
