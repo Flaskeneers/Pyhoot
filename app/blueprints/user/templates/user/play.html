@@ -54,24 +54,20 @@
 
         // FUNCTIONS
 
+
         // AJAX - Sends a data-package to the server, containing the text of the selected element.
         function sendData(user_input) {
             fetch("/play/next", {
                 method: "POST",
-                credentials: "include",
                 body: JSON.stringify(user_input),
-                cashe: "no-cashe",
                 headers: new Headers({
                     "content-type": "application/json"
                 })
             })
-                .then(function (response) {
-                    if (response.status !== 200) {
-                    }
-                    response.json().then(function (data) {
-                        checkAnswer(data)
-                    })
-                })
+
+                .then(validate_promise)
+                .then(response => response.json())
+                .then(response => checkAnswer(response));
         }
 
         function toggleContainer() {
@@ -88,6 +84,15 @@
                     }
                 })
         }
+
+        function validate_promise(response) {
+            if (response.status >= 200 && response.status < 300) {
+                return Promise.resolve(response)
+            } else {
+                return Promise.reject("Something went wrong...")
+            }
+        }
+
 
     </script>
 
