@@ -46,7 +46,7 @@
                     <h3>My Quizzes</h3>
 
                     {% for quiz in quizzes %}
-                        <a href="{{ url_for("user.edit_quiz_get", quiz_id=quiz.id, username=current_user.username, quiz=quiz) }}">{{ quiz.title }}
+                        <a href="{{ url_for("user.detail_quiz_get", quiz_id=quiz.id) }}">{{ quiz.title }}
                             - {{ (quiz.questions|length if quiz.questions else "0") }} Questions</a> <br/><br/>
                     {% endfor %}
 
