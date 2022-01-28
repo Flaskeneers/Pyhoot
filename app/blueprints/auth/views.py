@@ -5,6 +5,7 @@ from werkzeug.security import generate_password_hash
 from . import bp_auth
 from .forms import SignupForm, LoginForm, UpdateForm
 from ...controllers import user as user_controller
+from ...controllers.user import get_by_username
 
 
 @bp_auth.route("/signup/", methods=['GET', 'POST'])
@@ -61,18 +62,26 @@ def logout():
     return redirect(url_for('guest.index'))
 
 
-@bp_auth.route('/update/', methods=['GET', 'POST'])
+@bp_auth.route('/update/<string:username>', methods=['GET', 'POST'])
 @login_required
-def update():
+def update(username):
     form = UpdateForm()
+
     email = form.email.data
     new_password = form.new_password.data
+    password = form.password.data
+
+    user = get_by_username(username)
 
     if form.validate_on_submit():
-        user_controller.update_by_username(current_user.username, new_data={"email": email})
-        user_controller.update_by_username(current_user.username, new_data={"password": generate_password_hash
-                                                                            (new_password)})
+        if user_controller.verify_password(user, password):
+            user_controller.update_by_username(current_user.username, new_data={"email": email})
+            user_controller.update_by_username(current_user.username, new_data={"password": generate_password_hash
+                                                                                (new_password)})
+            flash('User Updated!')
 
-        return redirect(url_for('guest.index'))
+            return redirect(url_for('guest.index'))
+        else:
+            flash('Invalid Credentials')
 
     return render_template("auth/update.html", form=form)

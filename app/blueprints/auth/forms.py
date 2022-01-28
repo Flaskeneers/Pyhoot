@@ -26,9 +26,12 @@ class LoginForm(FlaskForm):
 
 class UpdateForm(FlaskForm):
 
-    email = StringField('E-mail: ', validators=[DataRequired()])
+    email = StringField('E-mail: ', validators=[DataRequired(message='Please enter a valid Email!!'),
+                                                Email(message='Please enter a valid Email')])
     password = PasswordField('Current Password: ', validators=[InputRequired()])
-    new_password = PasswordField('New Password: ', validators=[InputRequired()])
-    repeat_password = PasswordField('Repeat New Password: ', validators=[InputRequired(), EqualTo('new_password')])
+    new_password = PasswordField('New Password: ', validators=[InputRequired(), Length(3, 25)])
+    repeat_password = PasswordField('Repeat New Password: ', validators=[InputRequired(),
+                                                                         EqualTo('new_password',
+                                                                                 message='Password must match')])
 
     update_button = SubmitField('Update')
