@@ -35,54 +35,35 @@
 {% block scripts %}
 
     <script type="text/javascript">
+
         const reveal_screen = document.querySelector("#reveal_container")
         const question_screen = document.querySelector('#question_container');
-        const results = document.querySelectorAll(".reveal__answer_box");
-        let selection = undefined;
+        let results = document.querySelectorAll(".reveal__answer_box");
 
 
         document.querySelectorAll(".answer_box").forEach(box => {
             box.addEventListener("click", () => {
+                let selection;
                 selection = box.innerText
                 sendData(selection)
                 toggleContainer()
-                selection = undefined
             });
         });
 
         document.getElementById('next_btn').addEventListener("click", () => toggleContainer())
 
-        // FUNCTIONS
 
-
-        // AJAX - Sends a data-package to the server, containing the text of the selected element.
+        // Sends a data-package to the server, containing the text of the selected element.
+        // response should be a str-value with the correct answer for the question.
         function sendData(user_input) {
             fetch("/play/next", {
+                headers: new Headers({"content-type": "application/json"}),
                 method: "POST",
                 body: JSON.stringify(user_input),
-                headers: new Headers({
-                    "content-type": "application/json"
-                })
             })
-
                 .then(validate_promise)
                 .then(response => response.json())
                 .then(response => checkAnswer(response));
-        }
-
-        function toggleContainer() {
-            question_screen.classList.toggle('hidden')
-            reveal_screen.classList.toggle('hidden')
-
-        }
-
-        function checkAnswer(data) {
-            document.querySelectorAll('.reveal__answer_box').forEach(
-                box => {
-                    if (data == box.innerText) {
-                        box.style.backgroundColor = "darkgreen"
-                    }
-                })
         }
 
         function validate_promise(response) {
@@ -94,6 +75,23 @@
         }
 
 
+        //switches between revealed answer and question, enabling / disabling buttons
+        function toggleContainer() {
+            question_screen.classList.toggle('hidden')
+            reveal_screen.classList.toggle('hidden')
+        }
+
+        // Takes the response from AJAX-call and compares only the text-value with each div, and styles boxes accordingly
+        function checkAnswer(data) {
+            document.querySelectorAll('.reveal__answer_box').forEach(
+                box => {
+                    if (data == box.innerText) {
+                        box.style.backgroundColor = "darkgreen"
+                    } else {
+                        box.style.backgroundColor = "darkred"
+                    }
+                })
+        }
     </script>
 
 

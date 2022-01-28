@@ -3,7 +3,7 @@ from flask_login import login_required, current_user
 
 from .. import bp_user
 
-current_question = 0
+current_question = 1
 dummyQuiz = [{
     "game_id": "temp",
     "quiz_id": "temp",
