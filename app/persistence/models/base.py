@@ -44,7 +44,7 @@ class Document(dict, ABC):
 
     def to_dict(self) -> dict:
         data = {k: v for (k, v) in self.__dict__.items() if k != "_id"}
-        data["id"] = self.__dict__["_id"]
+        data["id"] = self.id
         return data
 
     @property
