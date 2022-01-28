@@ -78,9 +78,13 @@ def update(username):
             user_controller.update_by_username(current_user.username, new_data={"email": email})
             user_controller.update_by_username(current_user.username, new_data={"password": generate_password_hash
                                                                                 (new_password)})
-            flash('User Updated!')
+            user_controller.update_by_username(current_user.username, new_data={"first_name": form.first_name.data})
+            user_controller.update_by_username(current_user.username, new_data={"country": form.country.data})
+
+            flash('User Updated Successfully!')
 
             return redirect(url_for('guest.index'))
+
         else:
             flash('Invalid Credentials')
 

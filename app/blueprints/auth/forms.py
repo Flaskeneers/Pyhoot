@@ -33,5 +33,7 @@ class UpdateForm(FlaskForm):
     repeat_password = PasswordField('Repeat New Password: ', validators=[InputRequired(),
                                                                          EqualTo('new_password',
                                                                                  message='Password must match')])
+    first_name = StringField('Name: ')
+    country = StringField('Country: ')
 
     update_button = SubmitField('Update')
