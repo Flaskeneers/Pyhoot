@@ -1,5 +1,6 @@
 from http import HTTPStatus
 
+import werkzeug.exceptions
 from flask import Flask, render_template
 
 
@@ -14,7 +15,9 @@ def register_error_handlers(_app: Flask) -> None:
 
     @_app.errorhandler(HTTPStatus.NOT_FOUND)
     def not_found_error(error):
-        return render_template("errors/404.html"), HTTPStatus.NOT_FOUND
+        err: werkzeug.exceptions.NotFound = error
+        message = err.description if err.description else str(error).split(":")[-1].strip()
+        return render_template("errors/404.html", message=message), HTTPStatus.NOT_FOUND
 
     @_app.errorhandler(HTTPStatus.INTERNAL_SERVER_ERROR)
     def not_found_error(error):
