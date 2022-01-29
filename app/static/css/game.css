@@ -47,19 +47,11 @@
     box-shadow: 0 5px 25px 0 rgba(0,0,0,.25)
 }
 
-.reveal__answer_box{
-
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-
-    box-shadow: 0 5px 25px 0 rgba(0,0,0,.25)
-}
-
-#next_btn, #reveal_btn {
+#next_btn, #quit_btn {
     background-color: #222;
     border: 2px solid #7f6df2;
     grid-column-start: 2;
+    grid-row-start: 5;
     color: #dcddde;
     font-weight: 900;
 }

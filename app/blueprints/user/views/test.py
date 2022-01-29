@@ -3,28 +3,7 @@ from flask_login import login_required, current_user
 
 from .. import bp_user
 
-current_question = 1
-dummyQuiz = [{
-    "game_id": "temp",
-    "quiz_id": "temp",
-    "quiz_title": "DummyQuiz",
-    "quiz_progress": f"{current_question + 1} out of 10",
 
-    "description": "What is 2 + 2?",
-    "choices": ["1", "2", "3", "4"]
-
-},
-    {
-        "game_id": "temp",
-        "quiz_id": "temp",
-        "quiz_title": "DummyQuiz",
-        "quiz_progress": f"{current_question +1} out of 2",
-
-        "description": "What is 2 + 3?",
-        "choices": ["5", "2", "3", "4"]
-
-    }
-]
 
 
 @bp_user.route('/test')
@@ -35,7 +14,7 @@ def hello_world():
 
 @bp_user.route("/play")
 def play():
-    return render_template("user/play.html", data=dummyQuiz[current_question])
+    return render_template("user/../../game/play.html", data=dummyQuiz[current_question])
 
 
 @bp_user.route("/play/next", methods=["POST"])

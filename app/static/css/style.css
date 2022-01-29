@@ -293,6 +293,11 @@ h1 {
     font-size: 1vw;
 }
 
+.quiz_card {
+    background-color: #2c3034;
+    border: #483699 solid 1px;
+}
+
 /* Imported Hover-effect */
 ._btn::before {
     content: "";
