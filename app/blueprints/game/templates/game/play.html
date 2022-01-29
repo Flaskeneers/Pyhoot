@@ -7,17 +7,18 @@
 {% block page_content %}
 
     <!-- QUESTION WINDOW! -->
-    <h1>{{ game.quiz_title }}</h1>
-    <div class="question_container" id="question_container">
+    <div class="quiz-head">
 
-        <div class="progressField"><!--Update on new Question --></div>
-        <div id="questionField"><!-- update on new Question --></div>
+        <div class="question_container" id="question_container">
 
-        <!-- Insert DIV - answer_box here with JS -->
-        <button id="next_btn">Next Question</button>
+            <div class="progressField"><h1>{{ game.quiz_title }}</h1></div>
+            <div id="questionField"><!-- update on new Question --></div>
+
+            <!-- Insert DIV - answer_box here with JS -->
+            <button id="next_btn">Next Question</button>
+        </div>
     </div>
     </div>
-
 
 
 
