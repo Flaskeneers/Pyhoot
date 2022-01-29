@@ -6,13 +6,14 @@ from .. import bp_user
 from ..forms.profile import EditProfileForm
 from app.controllers import quiz as quiz_controller
 from app.controllers import user as user_controller
+from app.controllers import game as game_controller
+
 
 
 @bp_user.get("/profile/<username>")
 def view_profile(username: str):
     if not user_controller.get_by_username(username):
         abort(HTTPStatus.NOT_FOUND, "This is not the profile you are looking for.")
-
     quizzes = quiz_controller.get_all_quizzes_by_username(username)
     return render_template("user/profile/view.html",
                            quizzes=quizzes)

@@ -6,7 +6,7 @@
 
     <div class="container">
 
-        <card class="profile_card">
+        <div class="profile_card">
             <h1 class="profile_header"> {{ current_user.username }} </h1>
 
             <div class="avatar">Avatar</div>
@@ -46,8 +46,12 @@
                     <h3>My Quizzes</h3>
 
                     {% for quiz in quizzes %}
-                        <a href="{{ url_for("user.detail_quiz_get", quiz_id=quiz.id) }}">{{ quiz.title }}
-                            - {{ (quiz.questions|length if quiz.questions else "0") }} Questions</a> <br/><br/>
+                        <div class="quiz_card">
+                            <h4>{{ quiz.title }} - {{ (quiz.questions|length if quiz.questions else "0") }}
+                                Questions</h4>
+                            <a class="card_a" href="{{ url_for("game.start_game", quiz_id=quiz.id) }}">Play!</a>
+                            <a class="card_a" href="{{ url_for("user.detail_quiz_get", quiz_id=quiz.id) }}">Edit Quiz</a>
+                        </div>
                     {% endfor %}
 
                 </div>
@@ -66,74 +70,7 @@
                 <a class="_btn" href="{{ url_for("guest.leaderboard") }}">Leaderboard</a>
 
             </div>
-        </card>
-    </div>
+            </card>
+        </div>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    {#    <div class="container">#}
-    {#        <div class="card-header">#}
-    {#            <h1>Profile</h1>#}
-    {#    <hr>#}
-    {#    <h1 class="title">Welcome {{ current_user.username }}</h1>#}
-    {#    <h2 class="subtitle">This is your page</h2>#}
-    {#        </div>#}
-    {#    <section>#}
-    {#        <h2>Quiz</h2>#}
-    {#        <ul>#}
-    {#            <li><a href="{{ url_for('user.create_quiz_get') }}">Create Quiz</a></li>#}
-    {#            <li><a href="{{ url_for('user.delete_my_quizzes') }}">Delete My Quizzes</a></li>#}
-    {#        </ul>#}
-    {#        {% if quizzes %}#}
-    {#            <h3>My Quizzes</h3>#}
-    {#            <ul>#}
-    {#                {% for quiz in quizzes %}#}
-    {#                    <li>#}
-    {#                        <a href="{{ url_for('user.detail_quiz_get', quiz_id=quiz.id) }}">#}
-    {#                            {{ quiz.title }}</a>#}
-    {#                    </li>#}
-    {#                {% endfor %}#}
-    {#            </ul>#}
-    {#        {% endif %}#}
-    {#    </section>#}
-    {#    </div>#}
 {% endblock %}
