@@ -1,6 +1,7 @@
+import json
 from http import HTTPStatus
 
-from flask import jsonify, request
+from flask import jsonify, request, render_template
 from flask_login import current_user, login_required
 
 from . import bp_game
@@ -47,12 +48,10 @@ def start_game(quiz_id: str):
             message="Quiz must have at least one question.")), HTTPStatus.BAD_REQUEST
 
     # TODO:
-    # return render_template("play.html", game=game.current_game_state_to_dict())
-
-    return jsonify(game.current_game_state_to_dict()), HTTPStatus.OK
+    return render_template("game/play.html", game=game.current_game_state_to_dict())
 
 
-@bp_game.get("/current/<game_id>")
+@bp_game.post("/current/<game_id>")
 def get_current_game_state(game_id: str):
     game = game_controller.get_game_by_id(game_id)
     if not game:
@@ -63,8 +62,8 @@ def get_current_game_state(game_id: str):
     return jsonify(game.current_game_state_to_dict()), HTTPStatus.OK
 
 
-@bp_game.get("/answer/<game_id>")
-def receive_and_process_answer(game_id: str):
+@bp_game.post("/answer/<game_id>")
+def receive_and_process_answer_post(game_id: str):
     """Takes in an answer for further processing and returns the correct answer."""
     game = game_controller.get_game_by_id(game_id)
     if not game:
@@ -77,15 +76,16 @@ def receive_and_process_answer(game_id: str):
                     has_finished=game.player.has_finished)
         return jsonify(data), HTTPStatus.OK
 
-    user_input = request.args.get("user_input")
+    user_input = request.json["value"]
+
     correct_answer = game_controller.answer_question_on_game_and_get_correct_answer(game_id, user_input)
     data = dict(correct_answer=correct_answer,
                 has_finished=game.player.has_finished)
     return jsonify(data), HTTPStatus.OK
 
 
-@bp_game.get("/next/<game_id>")
-def get_next_question_or_end_results(game_id: str):
+@bp_game.post("/next/<game_id>")
+def get_next_question_or_end_results_post(game_id: str):
     """Returns the next question in the quiz or the end results.
 
     The client-side can differentiate by checking the key 'has_finished'.
