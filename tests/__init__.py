@@ -1,21 +1,21 @@
 import unittest
 
-from app import create_app
-from app.config import ConfigType
+from app import create_app, ConfigType
 from app.persistence import db as pymongo
 
 
 class BaseTestCase(unittest.TestCase):
-    @classmethod
-    def setUpClass(cls) -> None:
-        cls.app = create_app(ConfigType.TESTING)
-        cls.app_context = cls.app.app_context()
-        cls.app_context.push()
+    def setUp(self) -> None:
+        self.app = create_app(ConfigType.TESTING)
+        self.app_context = self.app.app_context()
+        self.app_context.push()
 
-    @classmethod
-    def tearDownClass(cls) -> None:
-        pymongo.drop_database(cls.app.config["MONGO_DB_NAME"])
-        cls.app_context.pop()
+    def tearDown(self) -> None:
+        pymongo.drop_database(self.app.config["MONGO_DB_NAME"])
+        self.app_context.pop()
+
+    def test_does_db_names_match_from_env_var(self):
+        self.assertEqual(self.app.config["MONGO_DB_NAME"], "pyhoot-mongo-db-test")
 
 
 if __name__ == "__main__":
