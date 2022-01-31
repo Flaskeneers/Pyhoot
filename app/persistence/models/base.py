@@ -6,7 +6,7 @@ from app.shared.resultlist import ResultList
 
 
 class Document(dict, ABC):
-    collection: Collection = None
+    collection: Collection | None = None
 
     def __init__(self, data):
         super().__init__()
