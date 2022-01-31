@@ -1,7 +1,8 @@
 from pymongo import MongoClient
+from pymongo.database import Database
 
-client = None
-db = None
+client: MongoClient | None = None
+db: Database | None = None
 
 
 def init_mongodb(uri: str, name: str) -> None:
@@ -9,3 +10,7 @@ def init_mongodb(uri: str, name: str) -> None:
 
     client = MongoClient(uri, authSource="admin")
     db = client[name]
+
+
+def drop_database(name: str) -> None:
+    client.drop_database(name)
