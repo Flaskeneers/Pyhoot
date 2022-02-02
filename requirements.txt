@@ -1,5 +1,6 @@
 flask~=2.0.2
 flask-login
+flask-mail
 flask-sqlalchemy
 flask-wtf
 pymongo~=4.0.1
