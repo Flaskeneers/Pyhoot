@@ -26,14 +26,6 @@ class Config:
     MONGO_DB_HOST = environ.get("MONGO_DB_HOST")
     MONGO_DB_PORT = environ.get("MONGO_DB_PORT")
 
-    # MySQL
-    MYSQL_DB_NAME = environ.get("MYSQL_DB_NAME") or "pyhoot-mysql-db"
-    MYSQL_DB_PROTOCOL = environ.get("MYSQL_DB_PROTOCOL")
-    MYSQL_DB_USER = environ.get("MYSQL_DB_USER")
-    MYSQL_DB_PASS = environ.get("MYSQL_DB_PASS")
-    MYSQL_DB_HOST = environ.get("MYSQL_DB_HOST")
-    MYSQL_DB_PORT = environ.get("MYSQL_DB_PORT")
-
     # Flask-Mail
     MAIL_SERVER = environ.get("MAIL_SERVER")
     MAIL_USERNAME = environ.get("MAIL_USERNAME")
@@ -42,21 +34,18 @@ class Config:
     MAIL_SENDER = environ.get("MAIL_SENDER")
     MAIL_PORT = environ.get("MAIL_PORT")
 
-
 class DevelopmentConfig(Config):
     DEBUG = True
-    SQLALCHEMY_DATABASE_URI = environ.get(f"{Config.MYSQL_DB_NAME}_DEV") or f"sqlite:///{BASE_DIR}/data-dev.sqlite"
 
 
 class ProductionConfig(Config):
     DEBUG = False
     TESTING = False
-    SQLALCHEMY_DATABASE_URI = environ.get(Config.MYSQL_DB_NAME) or f"sqlite:///{BASE_DIR}/data-prod.sqlite"
 
 
 class TestingConfig(Config):
     TESTING = True
-    SQLALCHEMY_DATABASE_URI = environ.get(f"{Config.MYSQL_DB_NAME}_TEST") or f"sqlite:///"
+    CSRF_ENABLED = False
 
 
 __configs = {
@@ -67,10 +56,20 @@ __configs = {
 
 
 def configure(_app: Flask, config_type: ConfigType) -> None:
+    from .persistence.db import init_mongodb
+
     _app.config.from_object(__configs[config_type])
     _app.config["MONGO_DB_URI"] = (f"{_app.config['MONGO_DB_PROTOCOL']}://{_app.config['MONGO_DB_USER']}:"
                                    f"{_app.config['MONGO_DB_PASS']}@{_app.config['MONGO_DB_HOST']}:"
                                    f"{_app.config['MONGO_DB_PORT']}")
 
-    from .persistence.db import init_mongodb
+    db_name = _app.config["MONGO_DB_NAME"]
+
+    if config_type == ConfigType.DEVELOPMENT:
+        db_name += "-dev"
+    elif config_type == ConfigType.TESTING:
+        db_name += "-test"
+
+    _app.config["MONGO_DB_NAME"] = db_name
+
     init_mongodb(_app.config["MONGO_DB_URI"], _app.config["MONGO_DB_NAME"])
