@@ -13,7 +13,9 @@ def create_user(email: str, username: str, password: str) -> [list]:
         username=username,
         password=generate_password_hash(password),
         is_admin=False,
-        is_active=True)
+        is_active=True,
+        is_confirmed=False,
+        is_confirmed_since=None)
 
     if check_existing_users(username, email):
         user = User(data)
@@ -27,6 +29,10 @@ def get_all_users():
 
 def get_by_username(username: str):
     return ResultList(User(i) for i in User.collection.find(dict(username=username))).first_or_none()
+
+
+def get_by_email(email: str):
+    return ResultList(User(i) for i in User.collection.find(dict(email=email))).first_or_none()
 
 
 def update_by_username(username, new_data):

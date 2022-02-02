@@ -34,6 +34,14 @@ class Config:
     MYSQL_DB_HOST = environ.get("MYSQL_DB_HOST")
     MYSQL_DB_PORT = environ.get("MYSQL_DB_PORT")
 
+    # Flask-Mail
+    MAIL_SERVER = environ.get("MAIL_SERVER")
+    MAIL_USERNAME = environ.get("MAIL_USERNAME")
+    MAIL_PASSWORD = environ.get("MAIL_PASSWORD")
+    MAIL_USE_TLS = environ.get("MAIL_USE_TLS")
+    MAIL_SENDER = environ.get("MAIL_SENDER")
+    MAIL_PORT = environ.get("MAIL_PORT")
+
 
 class DevelopmentConfig(Config):
     DEBUG = True

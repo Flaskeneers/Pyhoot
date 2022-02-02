@@ -1,12 +1,14 @@
 from flask import Flask
 from flask_login import LoginManager
 from flask_socketio import SocketIO
+from flask_mail import Mail
 
 from . import errors
 from app.config import ConfigType, configure
 
 login_manager = LoginManager()
 socketio = SocketIO()
+mail = Mail()
 
 
 def create_app(config_type: ConfigType = ConfigType.DEVELOPMENT) -> Flask:
@@ -17,6 +19,8 @@ def create_app(config_type: ConfigType = ConfigType.DEVELOPMENT) -> Flask:
     register_blueprints(_app)
 
     errors.register_error_handlers(_app)
+
+    mail.init_app(_app)
 
     return _app
 
@@ -44,3 +48,4 @@ def register_blueprints(_app: Flask) -> None:
 
     from app.blueprints.user import bp_user
     _app.register_blueprint(bp_user)
+
