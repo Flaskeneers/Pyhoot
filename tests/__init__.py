@@ -18,5 +18,13 @@ class BaseTestCase(unittest.TestCase):
         self.assertEqual(self.app.config["MONGO_DB_NAME"], "pyhoot-mongo-db-test")
 
 
+class BaseClientTestCase(BaseTestCase):
+    def setUp(self) -> None:
+        super().setUp()
+
+        # use_cookies=True is necessary for Flask-Login
+        self.client = self.app.test_client(use_cookies=True)
+
+
 if __name__ == "__main__":
     unittest.main()
