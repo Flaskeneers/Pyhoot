@@ -34,6 +34,7 @@ class Config:
     MAIL_SENDER = environ.get("MAIL_SENDER")
     MAIL_PORT = environ.get("MAIL_PORT")
 
+
 class DevelopmentConfig(Config):
     DEBUG = True
 
