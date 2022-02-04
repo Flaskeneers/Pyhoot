@@ -1,10 +1,13 @@
 flask~=2.0.2
 flask-login
+flask-mail
 flask-sqlalchemy
 flask-wtf
 pymongo~=4.0.1
 python-dotenv~=0.19.2
 WTForms~=3.0.1
+email-validator
+itsdangerous
 
 
 SQLAlchemy~=1.4.29

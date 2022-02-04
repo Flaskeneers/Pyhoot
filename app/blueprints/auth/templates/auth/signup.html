@@ -12,6 +12,7 @@
 
                             {{ form.hidden_tag() }}
                             <div class="form-group">
+
                             {{ form.email.label(class="form-label") }} {{ form.email (class="form-control form-control-sm",
                                                                                             id="EmailInput") }}
                             {% for error in form.email.errors %}

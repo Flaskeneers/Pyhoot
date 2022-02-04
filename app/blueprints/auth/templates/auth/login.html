@@ -26,7 +26,7 @@
                                 <p style="color: red">{{ error }}</p>
                         {% endfor %}
 
-                            <a href="#" style="float:right; font-size: 12px;">Forgot Password?</a>
+                            <a href="{{ url_for('auth.forgot_password') }}" style="float:right; font-size: 12px;">Forgot Password?</a>
                         </div>
 
 

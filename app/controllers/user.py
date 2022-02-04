@@ -9,6 +9,10 @@ def get_by_username(username: str):
     return repo.get_by_username(username)
 
 
+def get_by_email(email: str):
+    return repo.get_by_email(email)
+
+
 def check_existing_users(username: str, email: str):
     return repo.check_existing_users(username, email)
 
