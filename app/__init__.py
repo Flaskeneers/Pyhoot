@@ -40,6 +40,9 @@ def register_blueprints(_app: Flask) -> None:
     from app.blueprints.auth import bp_auth
     _app.register_blueprint(bp_auth)
 
+    from app.blueprints.api import bp_api
+    _app.register_blueprint(bp_api, url_prefix="/api/1.0")
+
     from app.blueprints.guest import bp_guest
     _app.register_blueprint(bp_guest)
 

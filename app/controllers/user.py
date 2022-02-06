@@ -28,3 +28,6 @@ def get_all_users():
 def update_by_username(username, new_data):
     return repo.update_by_username(username, new_data)
 
+
+def get_all_usernames_with(search_for: str) -> list[str] | None:
+    return repo.get_all_usernames_with(search_for)

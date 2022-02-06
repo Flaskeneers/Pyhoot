@@ -1,4 +1,3 @@
-
 from werkzeug.security import generate_password_hash, check_password_hash
 
 from app.persistence.models.user import User
@@ -59,5 +58,6 @@ def verify_password(password: str, password_hash: str) -> bool:
     return check_password_hash(password, password_hash)
 
 
-
-
+def get_all_usernames_with(search_for: str) -> list[str] | None:
+    return [User(data).username for data in
+            User.collection.find(dict(username={"$regex": search_for}))]

@@ -1,13 +1,12 @@
 from http import HTTPStatus
 
 from flask import abort, render_template
+from flask_login import login_required
 
 from .. import bp_user
 from ..forms.profile import EditProfileForm
 from app.controllers import quiz as quiz_controller
 from app.controllers import user as user_controller
-from app.controllers import game as game_controller
-
 
 
 @bp_user.get("/profile/<username>")
@@ -23,3 +22,9 @@ def view_profile(username: str):
 # @bp_user.get("/profile")
 # def edit_profile():
 #     pass
+
+
+@bp_user.get("/profile/search")
+@login_required
+def search_profiles():
+    return render_template("user/profile/search.html")
