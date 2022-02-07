@@ -4,6 +4,8 @@ flask-login
 flask-mail
 flask-socketio
 flask-wtf
+passlib[argon2]
 pymongo
 python-dotenv
+simple-websocket
 WTForms
