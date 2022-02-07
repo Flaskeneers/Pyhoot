@@ -5,6 +5,6 @@ bp_guest = Blueprint(name="guest",
                      template_folder="templates",
                      static_folder="static")
 
-from . import errors, views
+from . import views
 
 
