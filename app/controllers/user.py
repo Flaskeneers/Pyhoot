@@ -1,7 +1,10 @@
+from app.persistence.models.user import User
 from app.persistence.repository import user_repo as repo
+from app.services import security_service
 
 
 def create_user(email: str, username: str, password: str):
+    password = security_service.generate_password_hash(password)
     return repo.create_user(email, username, password)
 
 
@@ -17,8 +20,8 @@ def check_existing_users(username: str, email: str):
     return repo.check_existing_users(username, email)
 
 
-def verify_password(user, password):
-    return repo.verify_password(user.password, password)
+def is_password_valid(user: User, plain_password: str) -> bool:
+    return security_service.is_password_valid(plain_password, user.password)
 
 
 def get_all_users():

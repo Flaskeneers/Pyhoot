@@ -1,12 +1,12 @@
 from flask import render_template, flash, redirect, url_for, current_app
 from flask_login import login_user, logout_user, login_required, current_user
-from werkzeug.security import generate_password_hash
 
 import app
 from . import bp_auth
 from .forms import SignupForm, LoginForm, UpdateForm, ForgotPasswordForm, ResetPasswordForm
 from ...controllers import user as user_controller
 from ...controllers.user import get_by_username
+from app.services import security_service
 
 from flask_mail import Message
 from itsdangerous import URLSafeTimedSerializer
@@ -77,7 +77,7 @@ def login():
         user = user_controller.get_by_username(username)
 
         if user is not None:
-            if user_controller.verify_password(user, password):
+            if user_controller.is_password_valid(user, password):
                 if user.is_confirmed:
                     login_user(user)
                     flash(user.email)
@@ -151,8 +151,10 @@ def reset_password(token):
 
     if form.validate_on_submit():
         new_password = form.new_password.data
-        user_controller.update_by_username(user.username, new_data={"password": generate_password_hash
-                                                                    (new_password)})
+        user_controller.update_by_username(
+            user.username,
+            new_data={"password": security_service.generate_password_hash(new_password)}
+        )
         return '<h1> Password Updated Successfully </h1>'
 
     return render_template('auth/reset_password.html', form=form)
@@ -170,10 +172,12 @@ def update(username):
     user = get_by_username(username)
 
     if form.validate_on_submit():
-        if user_controller.verify_password(user, password):
+        if user_controller.is_password_valid(user, password):
             user_controller.update_by_username(current_user.username, new_data={"email": email})
-            user_controller.update_by_username(current_user.username, new_data={"password": generate_password_hash
-                                                                                (new_password)})
+            user_controller.update_by_username(
+                current_user.username,
+                new_data={"password": security_service.generate_password_hash(new_password)}
+            )
             user_controller.update_by_username(current_user.username, new_data={"first_name": form.first_name.data})
             user_controller.update_by_username(current_user.username, new_data={"country": form.country.data})
 
