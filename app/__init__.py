@@ -3,7 +3,7 @@ from flask_login import LoginManager
 from flask_socketio import SocketIO
 from flask_mail import Mail
 
-from . import errors
+from . import cli, errors
 from app.config import ConfigType, configure
 
 login_manager = LoginManager()
@@ -19,6 +19,7 @@ def create_app(config_type: ConfigType = ConfigType.DEVELOPMENT) -> Flask:
     register_blueprints(_app)
 
     errors.register_error_handlers(_app)
+    cli.register_cli_commands(_app)
 
     mail.init_app(_app)
 
@@ -39,6 +40,9 @@ def initialize_extensions(_app: Flask) -> None:
 def register_blueprints(_app: Flask) -> None:
     from app.blueprints.auth import bp_auth
     _app.register_blueprint(bp_auth)
+
+    from app.blueprints.api import bp_api
+    _app.register_blueprint(bp_api, url_prefix="/api/1.0")
 
     from app.blueprints.guest import bp_guest
     _app.register_blueprint(bp_guest)

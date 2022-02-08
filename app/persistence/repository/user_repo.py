@@ -1,6 +1,3 @@
-
-from werkzeug.security import generate_password_hash, check_password_hash
-
 from app.persistence.models.user import User
 from app.shared.resultlist import ResultList
 
@@ -11,7 +8,7 @@ def create_user(email: str, username: str, password: str) -> [list]:
     data = dict(
         email=email,
         username=username,
-        password=generate_password_hash(password),
+        password=password,
         is_admin=False,
         is_active=True,
         is_confirmed=False,
@@ -53,11 +50,6 @@ def check_existing_users(username: str, email: str) -> bool:
     return True
 
 
-def verify_password(password: str, password_hash: str) -> bool:
-    """ Compares entered credentials with credentials in DB."""
-
-    return check_password_hash(password, password_hash)
-
-
-
-
+def get_all_usernames_with(search_for: str) -> list[str] | None:
+    return [User(data).username for data in
+            User.collection.find(dict(username={"$regex": search_for}))]

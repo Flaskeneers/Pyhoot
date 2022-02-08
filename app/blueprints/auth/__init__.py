@@ -5,4 +5,4 @@ bp_auth = Blueprint(name="auth",
                     template_folder="templates",
                     static_folder="static")
 
-from app.blueprints.auth import errors, views
+from app.blueprints.auth import views
