@@ -1,3 +1,7 @@
+import hashlib
+
+from werkzeug.security import generate_password_hash, check_password_hash
+
 from app.persistence.models.user import User
 from app.shared.resultlist import ResultList
 
@@ -12,12 +16,17 @@ def create_user(email: str, username: str, password: str) -> [list]:
         is_admin=False,
         is_active=True,
         is_confirmed=False,
-        is_confirmed_since=None)
+        is_confirmed_since=None,
+        avatar=f"https://robohash.org/{get_email_hash(email)}/set_set4/3.14159?size=400x500")
 
     if check_existing_users(username, email):
         user = User(data)
         user.save()
         return user
+
+
+def get_email_hash(email):
+    return hashlib.blake2s(email.encode()).hexdigest()
 
 
 def get_all_users():
