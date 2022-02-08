@@ -36,6 +36,11 @@ def delete_all_quizzes_by(query: dict | None = None) -> int:
     return quiz_repo.delete_all_quizzes_by(query)
 
 
+def get_all_quizzes_with_title(title: str) -> list[schemas.Quiz] | None:
+    quizzes: list[quiz_repo.Quiz] = quiz_repo.get_all_quizzes_with_title(title)
+    return [schemas.Quiz(**quiz.to_dict()) for quiz in quizzes] if quizzes else None
+
+
 # endregion Quiz
 
 
