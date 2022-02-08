@@ -1,3 +1,5 @@
+from app import login_manager
+
 from app.persistence.models.user import User
 from app.persistence.repository import user_repo as repo
 from app.services import security_service
@@ -34,3 +36,8 @@ def update_by_username(username, new_data):
 
 def get_all_usernames_with(search_for: str) -> list[str] | None:
     return repo.get_all_usernames_with(search_for)
+
+
+@login_manager.user_loader
+def load_user(user_id: str) -> User:
+    return get_by_username(user_id)
