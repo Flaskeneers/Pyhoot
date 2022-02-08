@@ -23,8 +23,3 @@ def view_profile(username: str):
 # def edit_profile():
 #     pass
 
-
-@bp_user.get("/profile/search")
-@login_required
-def search_profiles():
-    return render_template("user/profile/search.html")
