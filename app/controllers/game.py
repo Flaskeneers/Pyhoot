@@ -50,3 +50,7 @@ def answer_question_on_game_and_get_correct_answer(game_id: str,
     question index if there is a next question, otherwise it sets has_finished to True.
     """
     return game_repo.answer_question_on_game_and_get_correct_answer(game_id, answer)
+
+
+def get_score_by_username(username):
+    return game_repo.get_score_by_username(username)

@@ -1,4 +1,5 @@
 from flask import render_template
+from app.persistence.repository.game import get_score_by_username
 
 from . import bp_guest
 
