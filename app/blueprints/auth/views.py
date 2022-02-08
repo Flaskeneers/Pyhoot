@@ -1,9 +1,13 @@
-from flask import render_template, flash, redirect, url_for, current_app
+from os import urandom
+from random import randrange
+
+from flask import render_template, flash, redirect, url_for, current_app, request
 from flask_login import login_user, logout_user, login_required, current_user
+from werkzeug.security import generate_password_hash
 
 import app
 from . import bp_auth
-from .forms import SignupForm, LoginForm, UpdateForm, ForgotPasswordForm, ResetPasswordForm
+from .forms import SignupForm, LoginForm, UpdateForm, ForgotPasswordForm, ResetPasswordForm, RandomAvatarForm
 from ...controllers import user as user_controller
 from ...controllers.user import get_by_username
 from app.services import security_service
@@ -36,7 +40,7 @@ def signup():
             msg.body = 'To verify your E-mail address, visit the following link: {}'.format(link)
             app.mail.send(msg)
 
-            return '<h1> User Created! A verification link has been sent to your email account </h1>'
+            return render_template("auth/verify_email.html")
         else:
             flash('Username Already Exists')
 
@@ -61,7 +65,7 @@ def confirm_email(token):
         user.is_confirmed_since = datetime.datetime.now()
         user.save()
 
-        return '<h1> You have confirmed your account. Thanks! </h1>'
+        return render_template('auth/verified.html')
 
     return render_template('guest/index.html')
 
@@ -164,20 +168,18 @@ def reset_password(token):
 @login_required
 def update(username):
     form = UpdateForm()
-
-    email = form.email.data
+    rform = RandomAvatarForm()
     new_password = form.new_password.data
     password = form.password.data
 
     user = get_by_username(username)
 
-    if form.validate_on_submit():
+    if form.update_button.data and form.validate():
+
         if user_controller.is_password_valid(user, password):
-            user_controller.update_by_username(current_user.username, new_data={"email": email})
-            user_controller.update_by_username(
-                current_user.username,
-                new_data={"password": security_service.generate_password_hash(new_password)}
-            )
+
+            user_controller.update_by_username(current_user.username, new_data={"password": security_service.
+                                               generate_password_hash(new_password)})
             user_controller.update_by_username(current_user.username, new_data={"first_name": form.first_name.data})
             user_controller.update_by_username(current_user.username, new_data={"country": form.country.data})
 
@@ -188,4 +190,13 @@ def update(username):
         else:
             flash('Invalid Credentials')
 
-    return render_template("auth/update.html", form=form)
+    if rform.random_button.data and rform.validate():
+        random_avatar = urandom(8).hex()
+        random_figure = (randrange(4)+1)
+        user_controller.update_by_username(current_user.username, new_data={"avatar": f"https://robohash.org/"
+                                                        f"{random_avatar}/set_set{random_figure}/3.14159?size=400x500"})
+        return render_template("auth/update.html", usernmane=username, form=form, rform=rform,
+                               random_avatar=random_avatar, random_figure=random_figure)
+
+    return render_template("auth/update.html", username=username, form=form, rform=rform)
+

@@ -10,6 +10,10 @@ def create_user(email: str, username: str, password: str):
     return repo.create_user(email, username, password)
 
 
+def get_email_hash(email):
+    return repo.get_email_hash(email)
+
+
 def get_by_username(username: str):
     return repo.get_by_username(username)
 
