@@ -38,6 +38,11 @@ def delete_all_quizzes_by(query: dict | None = None) -> int:
     return result.deleted_count
 
 
+def get_all_quizzes_with_title(title: str) -> list[Quiz] | None:
+    return [Quiz(data) for data in
+            Quiz.collection.find(dict(title={"$regex": title}))]
+
+
 # endregion Quiz
 
 
