@@ -7,8 +7,8 @@ from . import cli, errors
 from app.config import ConfigType, configure
 
 login_manager = LoginManager()
-socketio = SocketIO()
 mail = Mail()
+socketio = SocketIO()
 
 
 def create_app(config_type: ConfigType = ConfigType.DEVELOPMENT) -> Flask:
@@ -21,19 +21,12 @@ def create_app(config_type: ConfigType = ConfigType.DEVELOPMENT) -> Flask:
     errors.register_error_handlers(_app)
     cli.register_cli_commands(_app)
 
-    mail.init_app(_app)
-
     return _app
 
 
 def initialize_extensions(_app: Flask) -> None:
     login_manager.init_app(_app)
-
-    @login_manager.user_loader
-    def load_user(user_id):
-        from app.persistence.models.user import User
-        return User.find(username=user_id).first_or_none()
-
+    mail.init_app(_app)
     socketio.init_app(_app)
 
 
@@ -52,4 +45,3 @@ def register_blueprints(_app: Flask) -> None:
 
     from app.blueprints.user import bp_user
     _app.register_blueprint(bp_user)
-
