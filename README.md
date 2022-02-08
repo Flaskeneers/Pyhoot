@@ -18,6 +18,12 @@ Planned features:
 - SocketIO integration - users will be able to create lobbies and send an invite-link to friends in order to take a Quiz in realtime and compete against each other (Kahoot-style)
 - quiz-page where the user can take a quiz and get a highscore
 
+
+### UML Diagram
+
+![UML diagram of the MongoDB documents in the project](assets/pyhoot_uml.png?raw=true "Pyhoot UML diagram")
+
+
 ## Setup
 
 1. Install packages from requirements.txt
