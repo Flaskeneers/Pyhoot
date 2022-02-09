@@ -25,6 +25,7 @@ class Config:
     MONGO_DB_PASS = environ.get("MONGO_DB_PASS")
     MONGO_DB_HOST = environ.get("MONGO_DB_HOST")
     MONGO_DB_PORT = environ.get("MONGO_DB_PORT")
+    MONGO_DB_URL = environ.get("MONGO_DB_URL")
 
     # Flask-Mail
     MAIL_SERVER = environ.get("MAIL_SERVER")
@@ -60,9 +61,11 @@ def configure(_app: Flask, config_type: ConfigType) -> None:
     from .persistence.db import init_mongodb
 
     _app.config.from_object(__configs[config_type])
-    _app.config["MONGO_DB_URI"] = (f"{_app.config['MONGO_DB_PROTOCOL']}://{_app.config['MONGO_DB_USER']}:"
-                                   f"{_app.config['MONGO_DB_PASS']}@{_app.config['MONGO_DB_HOST']}:"
-                                   f"{_app.config['MONGO_DB_PORT']}")
+
+    if config_type != ConfigType.PRODUCTION:
+        _app.config["MONGO_DB_URL"] = (f"{_app.config['MONGO_DB_PROTOCOL']}://{_app.config['MONGO_DB_USER']}:"
+                                       f"{_app.config['MONGO_DB_PASS']}@{_app.config['MONGO_DB_HOST']}:"
+                                       f"{_app.config['MONGO_DB_PORT']}")
 
     db_name = _app.config["MONGO_DB_NAME"]
 
@@ -73,4 +76,4 @@ def configure(_app: Flask, config_type: ConfigType) -> None:
 
     _app.config["MONGO_DB_NAME"] = db_name
 
-    init_mongodb(_app.config["MONGO_DB_URI"], _app.config["MONGO_DB_NAME"])
+    init_mongodb(_app.config["MONGO_DB_URL"], _app.config["MONGO_DB_NAME"])
