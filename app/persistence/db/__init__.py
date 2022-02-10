@@ -24,8 +24,9 @@ if config != ConfigType.PRODUCTION:
     MONGO_DB_URL = f"{PROTOCOL}://{USER}:{PASS}@{HOST}:{PORT}"
     DB_NAME += "-dev" if config == ConfigType.DEVELOPMENT else "-test"
 
+
 client: MongoClient = MongoClient(MONGO_DB_URL, authSource="admin")
-db: Database = client[DB_NAME]
+db: Database = client[DB_NAME if DB_NAME else "pyhoot-mongo-db"]
 
 
 def init_mongodb(uri: str, name: str) -> None:
