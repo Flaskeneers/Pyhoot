@@ -4,6 +4,7 @@ flask-login
 flask-mail
 flask-socketio
 flask-wtf
+gunicorn
 passlib[argon2]
 pymongo
 python-dotenv
