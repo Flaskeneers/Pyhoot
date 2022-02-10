@@ -190,6 +190,7 @@ h1, h4 {
     grid-template-columns: 1fr 1fr 1fr;
     grid-template-rows: 10% 35% 35%;
     border-radius: 15px;
+
     min-width: 600px;
     min-height: 500px;
 
@@ -198,6 +199,7 @@ h1, h4 {
 .profile_header {
     grid-row: 1 / 2;
     grid-column: 1 / 4;
+
     margin-left: auto;
     margin-right: auto;
     width: auto;
@@ -209,19 +211,13 @@ h1, h4 {
     grid-row: 2 / 3;
     grid-column: 1 / 2;
 
-    /*box-shadow: rgba(0, 0, 0, 0.75) 0 3px 6px, rgba(0, 0, 0, 0.23) 0 3px 6px;*/
     /*border: #483699 solid 1px;*/
     /*border-radius: 10px;*/
 
-    /*height: 100%;*/
+    align-self: end;
+    margin-left: auto;
+    margin-right: auto;
 
-    /*background-image: url(https://eu.ui-avatars.com/api/?name=Charlie+Serell;)*/
-}
-
-.default_avatar {
-    position: relative;
-    left: 12px;
-    top: -70px;
 }
 
 
@@ -408,25 +404,42 @@ h1, h4 {
     align-self: end;
 
 }
+
 #center {
     margin-left: auto;
     margin-right: auto;
 }
+
 /*END OF EDIT PROFILE*/
 
 /*VERIFY EMAIL*/
 
-.verified {
-    margin-left: 20px;
-    position: absolute;
-    top: 110px;
-}
-
 .verified_text {
-    box-shadow: rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 56px, rgba(17, 17, 26, 0.1) 0px 24px 80px;
-    border: #2a2a2a solid 2px;
+    box-shadow: rgba(0, 0, 0, 0.20) 0px 14px 28px, rgba(0, 0, 0, 0.18) 0px 10px 10px;
     background-color: #2a2a2a;
     border-radius: 5px;
-    padding: 30px;
+    padding: 35px;
 }
+
+.button {
+    background-color: darkgreen;
+    border: none;
+    color: #C8C8C8;
+    border-radius: 3px;
+    padding: 15px 35px;
+    text-align: center;
+    align-self: center;
+    margin: 25px;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    transition-duration: 0.4s;
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.12);
+}
+
+.button:hover {
+    background-color: green;
+    color: white;
+}
+
 /*END OF VERIFY EMAIL*/

@@ -57,3 +57,6 @@ class UpdateForm(FlaskForm):
 class RandomAvatarForm(FlaskForm):
     random_button = SubmitField('Randomize')
 
+
+class ResendVerificationForm(FlaskForm):
+    resend_button = SubmitField('Resend')

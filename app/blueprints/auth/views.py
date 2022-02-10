@@ -1,13 +1,15 @@
+from http import HTTPStatus
 from os import urandom
 from random import randrange
 
-from flask import render_template, flash, redirect, url_for, current_app, request
+from flask import render_template, flash, redirect, url_for, current_app, abort
 from flask_login import login_user, logout_user, login_required, current_user
 from werkzeug.security import generate_password_hash
 
 import app
 from . import bp_auth
-from .forms import SignupForm, LoginForm, UpdateForm, ForgotPasswordForm, ResetPasswordForm, RandomAvatarForm
+from .forms import SignupForm, LoginForm, UpdateForm, ForgotPasswordForm, ResetPasswordForm, RandomAvatarForm, \
+    ResendVerificationForm
 from ...controllers import user as user_controller
 from ...controllers.user import get_by_username
 from app.services import security_service
@@ -40,7 +42,7 @@ def signup():
             msg.body = 'To verify your E-mail address, visit the following link: {}'.format(link)
             app.mail.send(msg)
 
-            return render_template("auth/verify_email.html")
+            return render_template("auth/email_verification_sent.html")
         else:
             flash('Username Already Exists')
 
@@ -54,7 +56,7 @@ def confirm_email(token):
     try:
         email = serializer.loads(token, max_age=3600)
     except:
-        return '<h1> The confirmation link is invalid or has expired... </h1>'
+        return render_template("auth/invalid_token.html")
 
     user = user_controller.get_by_email(email)
 
@@ -88,9 +90,10 @@ def login():
                     flash(user.username)
 
                     return redirect(url_for("user.view_profile", username=user.username))
-                else:
-                    flash('Please verify your email before logging in')
 
+                else:
+
+                    return redirect(url_for("auth.not_verified", username=user.username))
             else:
                 flash('Invalid Credentials')
 
@@ -98,6 +101,35 @@ def login():
             flash('Invalid Credentials')
 
     return render_template("auth/login.html", form=form)
+
+
+@bp_auth.route("/not_verified/<username>", methods=['GET', 'POST'])
+def not_verified(username):
+
+    serializer = URLSafeTimedSerializer(current_app.config['SECRET_KEY'])
+    user = user_controller.get_by_username(username)
+
+    form = ResendVerificationForm()
+
+    if not user:
+        abort(HTTPStatus.NOT_FOUND, "This is not the account you want to verify.")
+
+    if user.is_confirmed:
+        flash("Account already verified")
+        redirect(url_for("guest.index"))
+
+    if form.validate_on_submit():
+
+        token = serializer.dumps(user.email)
+
+        msg = Message('Confirmed E-mail Address', sender=current_app.config["MAIL_SENDER"], recipients=[user.email])
+        link = url_for('auth.confirm_email', token=token, _external=True)
+        msg.body = 'To verify your E-mail address, visit the following link: {}'.format(link)
+        app.mail.send(msg)
+
+        return render_template("auth/email_verification_sent.html")
+
+    return render_template("auth/not_verified.html", form=form)
 
 
 @bp_auth.get('/logout')
@@ -129,7 +161,7 @@ def forgot_password():
             msg.body = 'To reset your password, visit the following link: {}'.format(link)
             app.mail.send(msg)
 
-            return '<h1> A password reset request have been sent to your E-mail address </h1>'
+            return render_template("auth/password_request_sent.html")
 
         else:
             flash("Email is not in use")
@@ -148,7 +180,7 @@ def reset_password(token):
     try:
         email = serializer.loads(token, max_age=3600)
     except:
-        return '<h1> The confirmation link is invalid or has expired... </h1>'
+        return render_template('auth/invalid_token.html')
 
     user = user_controller.get_by_email(email)
     form = ResetPasswordForm()
@@ -159,8 +191,8 @@ def reset_password(token):
             user.username,
             new_data={"password": security_service.generate_password_hash(new_password)}
         )
-        return '<h1> Password Updated Successfully </h1>'
-
+        flash("Password Updated Successfully!")
+        return redirect(url_for('guest.index'))
     return render_template('auth/reset_password.html', form=form)
 
 
