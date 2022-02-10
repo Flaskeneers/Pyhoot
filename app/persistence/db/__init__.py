@@ -1,12 +1,9 @@
 from os import getenv
 
-from dotenv import load_dotenv
 from pymongo import MongoClient
 from pymongo.database import Database
 
 from app import ConfigType
-
-load_dotenv()
 
 PROTOCOL = getenv("MONGO_DB_PROTOCOL")
 USER = getenv("MONGO_DB_USER")
@@ -24,9 +21,8 @@ if config != ConfigType.PRODUCTION:
     MONGO_DB_URL = f"{PROTOCOL}://{USER}:{PASS}@{HOST}:{PORT}"
     DB_NAME += "-dev" if config == ConfigType.DEVELOPMENT else "-test"
 
-
 client: MongoClient = MongoClient(MONGO_DB_URL, authSource="admin")
-db: Database = client[DB_NAME if DB_NAME else "pyhoot-mongo-db"]
+db: Database = client[DB_NAME]
 
 
 def init_mongodb(uri: str, name: str) -> None:
