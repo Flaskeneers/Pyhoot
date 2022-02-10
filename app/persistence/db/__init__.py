@@ -1,9 +1,12 @@
 from os import getenv
 
+from dotenv import load_dotenv
 from pymongo import MongoClient
 from pymongo.database import Database
 
 from app import ConfigType
+
+load_dotenv()
 
 PROTOCOL = getenv("MONGO_DB_PROTOCOL")
 USER = getenv("MONGO_DB_USER")
