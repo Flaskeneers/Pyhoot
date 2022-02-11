@@ -11,11 +11,14 @@
 </head>
 <body>
 <div class="container">
-    <div class="verified_text">
-        <h4>The confirmation link is invalid or has expired...</h4>
+    <div class="image_grid">
+
+        <div class="verified_text">
+            <h4>The confirmation link is invalid or has expired...</h4>
+        </div>
+        <img class="picture" src="{{ url_for('static', filename='images/red_x.png') }}"
+             alt="Default Avatar" width="150" height="150">
     </div>
-    <img style="position: absolute; top: 140px;" src="{{ url_for('static', filename='images/red_x.png') }}"
-         alt="Default Avatar" width="150" height="150">
 </div>
 </body>
 </html>
