@@ -414,11 +414,21 @@ h1, h4 {
 
 /*VERIFY EMAIL*/
 
+.image_grid {
+    display: grid;
+    gap: 2em;
+    grid-template-areas:
+            "picture"
+            "v_text";
+}
+
 .verified_text {
     box-shadow: rgba(0, 0, 0, 0.20) 0px 14px 28px, rgba(0, 0, 0, 0.18) 0px 10px 10px;
     background-color: #2a2a2a;
     border-radius: 5px;
     padding: 35px;
+    grid-area: v_text;
+
 }
 
 .button {
@@ -440,6 +450,14 @@ h1, h4 {
 .button:hover {
     background-color: green;
     color: white;
+}
+
+.picture {
+    align-self: end;
+    margin-left: auto;
+    margin-right: auto;
+    grid-area: picture;
+
 }
 
 /*END OF VERIFY EMAIL*/
