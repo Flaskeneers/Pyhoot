@@ -7,7 +7,7 @@
     <div class="container">
 
         <div class="profile_card">
-            <h1 class="profile_header"> {{ current_user.username }} </h1>
+            <h1 class="profile_header"> {{ username }} </h1>
 
             <div class="avatar">
 {#                <div class="default_avatar">#}
@@ -21,7 +21,7 @@
 
                     <div class="profile_section">
                         <span>Username:</span>
-                        <span>{{ current_user.username }}</span>
+                        <span>{{username }}</span>
                     </div>
 
                     <div class="profile_section">
@@ -36,7 +36,7 @@
 
                     <div class="profile_section">
                         <span>Member since:</span>
-                        <span>{{ current_user.is_confirmed_since }}</span>
+
                     </div>
                 </div>
 
@@ -47,14 +47,17 @@
             <div class="my_quizzes">
 
                 <div class="text_container" id="quiz_container">
-                    <h3>My Quizzes</h3>
+                    <h3>Quizzes</h3>
 
                     {% for quiz in quizzes %}
                         <div class="quiz_card">
                             <h4>{{ quiz.title }} - {{ (quiz.questions|length if quiz.questions else "0") }}
                                 Questions</h4>
                             <a class="card_a" href="{{ url_for("game.start_game", quiz_id=quiz.id) }}">Play!</a>
+                            {% if current_user.username == username %}
                             <a class="card_a" href="{{ url_for("user.detail_quiz_get", quiz_id=quiz.id) }}">Edit Quiz</a>
+                            {% endif %}
+
                         </div>
                     {% endfor %}
 
@@ -63,18 +66,6 @@
                 <a class="_btn" href="{{ url_for("user.create_quiz_get") }}">Create Quiz</a>
 
             </div>
-
-            <div class="profile_highscores">
-
-                <div class="text_container" id="highscore_container">
-                    <h3>My Highscores</h3>
-                    <p>Adding Quiz - best score here in a later release...</p>
-                </div>
-
-                <a class="_btn" href="{{ url_for("guest.leaderboard") }}">Leaderboard</a>
-
-            </div>
-            </card>
         </div>
 
 {% endblock %}

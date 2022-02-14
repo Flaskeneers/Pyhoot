@@ -3,62 +3,54 @@
 {% block title %}Search{% endblock %}
 
 {% block page_content %}
-    <div class="">
-        <h1>Search</h1>
 
-        <!-- Nav Tabs -->
-        <div class="">
-            <ul class="nav nav-tabs">
-                <li class="nav-item">
-                    <a class="nav-link active disabled"
-                       id="quiz-search-link"
-                       href="#">Search for Quizzes</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link"
-                       id="user-search-link"
-                       href="#">Search for Users</a>
-                </li>
-            </ul>
+    <div class="container">
+    <div class="search_card">
+            <h1 class="search_header">Search</h1>
+
+            <!-- Nav Tabs -->
+                <div class="search_nav">
+                    <span><a class="nav-link active disabled" id="quiz-search-link" href="#">Search for Quizzes</a></span>
+                    <span><a class="nav-link" id="user-search-link" href="#">Search for Users</a></span>
+                </div>
+
+            <!-- Quiz Tab -->
+            <div id="quiz-search-container">
+                <h2>Search for Quizzes</h2>
+
+                <form action="{{ url_for('user.search') }}" method="post"
+                      id="quiz-search-form">
+                    <label for="title" hidden></label>
+                    <input class="form-control" placeholder="Search by title"
+                           type="text" id="title" name="title" autocomplete="off">
+                    <button class="btn btn-outline-primary" id="searchQuizButton"
+                            type="button">Search
+                    </button>
+                </form>
+
+                <div class="text-center mt-5" id="quiz-search-results"></div>
+
+            </div>
+
+            <!-- User Tab -->
+            <div class="visually-hidden"
+                 id="user-search-container">
+                <h2>Search for Users</h2>
+
+                <form action="{{ url_for('user.search') }}" method="post"
+                      id="user-search-form">
+                    <label for="username" hidden></label>
+                    <input class="form-control" placeholder="Search by username"
+                           type="text" id="username" name="username" autocomplete="off">
+                    <button class="btn btn-outline-primary" id="searchUserButton"
+                            type="button">Search
+                    </button>
+                </form>
+
+                <div class="text-center mt-5" id="user-search-results"></div>
+            </div>
+
         </div>
-
-        <!-- Quiz Tab -->
-        <div class=""
-             id="quiz-search-container">
-            <h2>Search for Quizzes</h2>
-
-            <form action="{{ url_for('user.search') }}" method="post"
-                  id="quiz-search-form">
-                <label for="title" hidden></label>
-                <input class="form-control" placeholder="Search by title"
-                       type="text" id="title" name="title" autocomplete="off">
-                <button class="btn btn-outline-primary" id="searchQuizButton"
-                        type="button">Search
-                </button>
-            </form>
-
-            <div class="text-center mt-5" id="quiz-search-results"></div>
-
-        </div>
-
-        <!-- User Tab -->
-        <div class="visually-hidden"
-             id="user-search-container">
-            <h2>Search for Users</h2>
-
-            <form action="{{ url_for('user.search') }}" method="post"
-                  id="user-search-form">
-                <label for="username" hidden></label>
-                <input class="form-control" placeholder="Search by username"
-                       type="text" id="username" name="username" autocomplete="off">
-                <button class="btn btn-outline-primary" id="searchUserButton"
-                        type="button">Search
-                </button>
-            </form>
-
-            <div class="text-center mt-5" id="user-search-results"></div>
-        </div>
-
     </div>
 {% endblock %}
 

@@ -2,6 +2,8 @@ from bson import ObjectId
 
 from . import quiz as quiz_repo
 from app.persistence.models.game import Game
+from ...shared.resultlist import ResultList
+from ...shared.schemas import Player
 
 
 def create(**kwargs) -> Game:
@@ -38,3 +40,18 @@ def answer_question_on_game_and_get_correct_answer(game_id: str, answer: str) ->
     game.save()
 
     return correct_answer
+
+
+def get_all_games():
+    return ResultList(Game(item) for item in Game.collection.find())
+
+
+def get_score_by_username(username: str) -> list:
+
+        games = get_all_games()
+        results = []
+        for game in games:
+            if game.__dict__["player"]["username"] == username \
+                    and game.__dict__["player"]["has_finished"]:
+                results.append(game.__dict__)
+        return results

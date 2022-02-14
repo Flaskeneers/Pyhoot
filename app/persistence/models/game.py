@@ -6,3 +6,4 @@ from ..db import db
 
 class Game(Document):
     collection: Collection = db.games
+
