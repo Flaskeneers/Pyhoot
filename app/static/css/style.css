@@ -4,7 +4,7 @@ body {
     background: #202020 !important;
     font-family: "Fira", sans-serif;
     color: #dcddde;
-    }
+}
 
 .container {
     height: 75vh;
@@ -44,8 +44,17 @@ form {
     border-radius: 20px !important;
 }
 
+.edit-form {
+    width: 760px;
+    height: 600px;
+    margin: 20px;
 
-#UsernameInput, #PasswordInput, #EmailInput, #CountryInput, #NameInput {
+    background: #2c2c2c !important;
+    border-radius: 20px !important;
+}
+
+
+#UsernameInput, #PasswordInput, #CountryInput, #FirstNameInput, #NewPasswordInput, #RepeatPasswordInput, #EmailInput {
     background: #2c2c2c !important;
     border: 2px solid #454545;
     border-radius: 10px;
@@ -72,13 +81,14 @@ form {
     border-radius: 10px;
 
 }
+
 .signup {
     text-align: center;
     padding-top: 25px;
 
 }
 
-h1 {
+h1, h4 {
     color: #7f6df2;
     font-weight: 900;
 }
@@ -160,6 +170,7 @@ h1 {
 .menu a:hover {
     background-color: #7f6df2;
 }
+
 /* END OF HEADER */
 
 
@@ -179,6 +190,7 @@ h1 {
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 10% 35% 35%;
     border-radius: 15px;
+
     min-width: 600px;
     min-height: 500px;
 
@@ -223,6 +235,7 @@ h1 {
 .profile_header {
     grid-row: 1 / 2;
     grid-column: 1 / 3;
+
     margin-left: auto;
     margin-right: auto;
     width: auto;
@@ -234,12 +247,13 @@ h1 {
     grid-row: 2 / 3;
     grid-column: 1 / 2;
 
-    box-shadow: rgba(0, 0, 0, 0.75) 0 3px 6px, rgba(0, 0, 0, 0.23) 0 3px 6px;
-    border: #483699 solid 1px;
-    border-radius: 10px;
+    /*border: #483699 solid 1px;*/
+    /*border-radius: 10px;*/
 
-    height: 100%;
-    background-image: url(https://eu.ui-avatars.com/api/?name=Charlie+Serell;)
+    align-self: end;
+    margin-left: auto;
+    margin-right: auto;
+
 }
 
 
@@ -376,3 +390,110 @@ h1 {
 }
 
 /* END OF PROFILE */
+
+/*EDIT PROFILE*/
+
+.edit_card {
+    width: 50vw;
+    height: 90vh;
+    margin-top: 10%;
+    font-family: "Fira", sans-serif;
+
+    background: #2c2c2c !important;
+    padding: 2rem;
+    color: #999;
+
+    /*border: #483699 solid 1px;*/
+    border-radius: 10px;
+    display: grid;
+
+    gap: 1em;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 10% 45% 45%;
+    grid-template-areas:
+            "header header"
+            "update random"
+            "update random";
+    min-width: 600px;
+    min-height: 500px;
+
+}
+
+.edit_header {
+    margin-left: auto;
+    margin-right: auto;
+    width: auto;
+    grid-area: header;
+
+}
+
+.random_avatar {
+    grid-area: random;
+    margin-bottom: 10%;
+    align-self: end;
+
+}
+
+.update {
+    grid-area: update;
+    margin-bottom: 10%;
+    align-self: end;
+
+}
+
+#center {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/*END OF EDIT PROFILE*/
+
+/*VERIFY EMAIL*/
+
+.image_grid {
+    display: grid;
+    gap: 2em;
+    grid-template-areas:
+            "picture"
+            "v_text";
+}
+
+.verified_text {
+    box-shadow: rgba(0, 0, 0, 0.20) 0px 14px 28px, rgba(0, 0, 0, 0.18) 0px 10px 10px;
+    background-color: #2a2a2a;
+    border-radius: 5px;
+    padding: 35px;
+    grid-area: v_text;
+
+}
+
+.button {
+    background-color: darkgreen;
+    border: none;
+    color: #C8C8C8;
+    border-radius: 3px;
+    padding: 15px 35px;
+    text-align: center;
+    align-self: center;
+    margin: 25px;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    transition-duration: 0.4s;
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.12);
+}
+
+.button:hover {
+    background-color: green;
+    color: white;
+}
+
+.picture {
+    align-self: end;
+    margin-left: auto;
+    margin-right: auto;
+    grid-area: picture;
+
+}
+
+/*END OF VERIFY EMAIL*/

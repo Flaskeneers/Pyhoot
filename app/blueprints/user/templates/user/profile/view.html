@@ -9,8 +9,11 @@
         <div class="profile_card">
             <h1 class="profile_header"> {{ username }} </h1>
 
-
-            <div class="avatar"></div>
+            <div class="avatar">
+{#                <div class="default_avatar">#}
+                    <img src="{{ current_user.avatar }}" alt="Default Avatar" width="200" height="250" id="cen">
+{#                </div>#}
+            </div>
 
             <div class="profile_info">
                 <div class="text_container" id="profile_container">
@@ -23,12 +26,12 @@
 
                     <div class="profile_section">
                         <span>Name:</span>
-                        <span>Charlie</span>
+                        <span>{{ current_user.first_name }}</span>
                     </div>
 
                     <div class="profile_section">
                         <span>Country:</span>
-                        <span>Sweden</span>
+                        <span>{{ current_user.country }}</span>
                     </div>
 
                     <div class="profile_section">

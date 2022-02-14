@@ -1,10 +1,19 @@
-{% extends "base.html" %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>{% block title %}Bad Request{% endblock %} - Pyhoot</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/400.css') }}">
 
-{% block title %}Bad Request{% endblock %}
-
-{% block page_content %}
-    <div class="container">
-        <h1>Bad Request</h1>
-        <p>Can't help you with that Chief.</p>
-    </div>
-{% endblock %}
+    {% block meta %}{% endblock %}
+    {% block additional_css %}{% endblock %}
+</head>
+<body>
+<p>HTTP: <span>400</span></p>
+<code><span>def</span> <b>you_screwed_up</b>(bad_request):</code>
+<code>bad_request.this_page = <span>True</span></code>
+<code><em>print</em>(<i>"Can't help you with that Chief."</i>)
+</code>
+</code>
+</body>
+</html>

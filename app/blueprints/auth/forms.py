@@ -43,8 +43,6 @@ class ResetPasswordForm(FlaskForm):
 
 class UpdateForm(FlaskForm):
 
-    email = StringField('E-mail: ', validators=[DataRequired(message='Please enter a valid Email!!'),
-                                                Email(message='Please enter a valid Email')])
     password = PasswordField('Current Password: ', validators=[InputRequired()])
     new_password = PasswordField('New Password: ', validators=[InputRequired(), Length(3, 25)])
     repeat_password = PasswordField('Repeat New Password: ', validators=[InputRequired(),
@@ -54,3 +52,11 @@ class UpdateForm(FlaskForm):
     country = StringField('Country: ')
 
     update_button = SubmitField('Update')
+
+
+class RandomAvatarForm(FlaskForm):
+    random_button = SubmitField('Randomize')
+
+
+class ResendVerificationForm(FlaskForm):
+    resend_button = SubmitField('Resend')

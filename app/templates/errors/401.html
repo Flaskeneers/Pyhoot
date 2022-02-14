@@ -1,10 +1,49 @@
-{% extends "base.html" %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>{% block title %}Unauthorized{% endblock %} - Pyhoot</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/401.css') }}">
 
-{% block title %}Unauthorized{% endblock %}
+    {% block meta %}{% endblock %}
+    {% block additional_css %}{% endblock %}
+</head>
+<body>
+<div class="ghost">
 
-{% block page_content %}
-    <div class="container">
-        <h1>Unauthorized</h1>
-        <p>You were not authorized to access that page.</p>
+<div class="ghost--navbar"></div>
+  <div class="ghost--columns">
+    <div class="ghost--column">
+      <div class="code"></div>
+      <div class="code"></div>
+      <div class="code"></div>
+      <div class="code"></div>
     </div>
-{% endblock %}
+    <div class="ghost--column">
+      <div class="code"></div>
+      <div class="code"></div>
+      <div class="code"></div>
+      <div class="code"></div>
+    </div>
+    <div class="ghost--column">
+      <div class="code"></div>
+      <div class="code"></div>
+      <div class="code"></div>
+      <div class="code"></div>
+    </div>
+
+  </div>
+  <div class="ghost--main">
+    <div class="code"></div>
+    <div class="code"></div>
+
+  </div>
+
+</div>
+
+<h1 class="police-tape police-tape--1">
+  &nbsp;&nbsp;&nbsp;&nbsp;Error: 401&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Error: 401&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Error: 401&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Error: 401&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Error: 401&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Error: 401&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Error: 401
+</h1>
+<h1 class="police-tape police-tape--2">orized&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;You were not authorized to access that page&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Authorized&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Authorized&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Authorized&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Authorized&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</h1>
+</body>
+</html>
