@@ -33,8 +33,10 @@ Planned features:
 
     # Flask
     SECRET_KEY=...
+    PROJECT_ENV=...  # set to development, testing or production
 
     # DB
+    MONGO_DB_URL=...  # only used if config type is set to production
     MONGO_DB_NAME=database-name
     MONGO_DB_PROTOCOL=mongodb
     MONGO_DB_USER=root
